@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CottonCandy.Application\CottonCandy.Application.csproj" />
+    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
+    <ProjectReference Include="..\CottonCandy.Repository\CottonCandy.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

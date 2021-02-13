@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\CottonCandy.Application\CottonCandy.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\CottonCandy.Repositories.IoC\CottonCandy.Repositories.IoC.csproj" />
+  </ItemGroup>
+
+
+</Project>
