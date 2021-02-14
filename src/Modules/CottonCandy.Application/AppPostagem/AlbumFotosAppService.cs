@@ -21,7 +21,7 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<List<String>> GetByUserIdOnlyPhotoAsync(int userId)
         {
-            var userId = 1; //_logged.GetUserLoggedId();
+            //var userId = 1; //_logged.GetUserLoggedId();
 
             var fotos = await _postagemRepository.GetByUserIdOnlyPhotosAsync(userId)
                                     .ConfigureAwait(false);

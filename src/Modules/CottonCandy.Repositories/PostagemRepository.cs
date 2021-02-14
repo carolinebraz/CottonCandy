@@ -102,7 +102,7 @@ namespace CottonCandy.Repositories
                                 FROM 
 	                                Postagem
                                 WHERE
-                                    FotoPost = <>'';
+                                    FotoPost <>'' AND
 	                                UsuarioId= '{usuarioId}'";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))

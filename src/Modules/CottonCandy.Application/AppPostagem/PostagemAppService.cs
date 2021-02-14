@@ -24,7 +24,7 @@ namespace CottonCandy.Application
         {
             var userId = 1; //_logged.GetUserLoggedId();
 
-            var postages = await _postagemRepository.GetByUserIdAsync(userId)
+            var postages = await _postagemRepository.ObterInformacoesPorIdAsync(userId)
                                     .ConfigureAwait(false);
             return postages;
         }

@@ -51,5 +51,21 @@ namespace CottonCandy.API.Controllers
             return Ok(perfil);
 
         }
+
+        [HttpGet]
+        [Route("perfil/{id}")]
+        public async Task<IActionResult> GetUsuarioPerfil([FromRoute] int id)
+        {
+            var perfil = await _usuarioAppService
+                                .ObterInformacoesPorIdAsync(id)
+                                //Método Get para usuários e postagens
+                                .ConfigureAwait(false);
+
+            if (perfil is null)
+                return NotFound();
+
+            return Ok(perfil);
+
+        }
     }
 }
