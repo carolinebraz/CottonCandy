@@ -50,6 +50,7 @@ namespace CottonCandy.Repositories
                                                     reader["FotoPost"].ToString(),
                                                     int.Parse(reader["UsuarioId"].ToString()));
 
+                        postagem.SetId(int.Parse(reader["Id"].ToString()));
 
                         postagensUsuario.Add(postagem);
                     }

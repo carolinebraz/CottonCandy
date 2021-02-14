@@ -22,27 +22,28 @@ namespace CottonCandy.Application.AppUsuario
             _usuarioRepository = usuarioRepository;
             _postagemRepository = postagemRepository;
         }
-        //public async Task<UsuarioViewModel> GetByIdAsync(int id)
-        //{
-        //    var usuario = await _usuarioRepository
-        //                        .GetByIdAsync(id)
-        //                        .ConfigureAwait(false);
+        public async Task<UsuarioViewModel> GetByIdAsync(int id)
+        {
+            var usuario = await _usuarioRepository
+                                .GetByIdAsync(id)
+                                .ConfigureAwait(false);
 
-        //    if (usuario is null)
-        //        return default;
+            if (usuario is null)
+                return default;
 
-        //    return new UsuarioViewModel()
-        //    {
-        //        Id = usuario.Id,
-        //        Nome = usuario.Nome,
-        //        DataNascimento = usuario.DataNascimento,
-        //        Email = usuario.Email,
-        //        Genero = usuario.Genero,
-        //        FotoPerfil = usuario.FotoPerfil,
-        //        Cargo = usuario.Cargo,
-        //        Cidade = usuario.Cidade
-        //    };
-        //}
+            return new UsuarioViewModel()
+            {
+                Id = usuario.Id,
+                Nome = usuario.Nome,
+                DataNascimento = usuario.DataNascimento,
+                Email = usuario.Email,
+                Genero = usuario.Genero,
+                FotoPerfil = usuario.FotoPerfil,
+                Cargo = usuario.Cargo,
+                Cidade = usuario.Cidade,
+                FotoCapa = usuario.FotoCapa
+            };
+        }
 
         public async Task<UsuarioViewModel> InsertAsync(UsuarioInput input)
         {
@@ -62,7 +63,8 @@ namespace CottonCandy.Application.AppUsuario
                                         new Genero(genero.Id, genero.Descricao),
                                         input.FotoPerfil,
                                         input.Cargo,
-                                        input.Cidade);
+                                        input.Cidade,
+                                        input.FotoCapa);
 
             if (!usuario.EhValido())
             {
@@ -82,11 +84,12 @@ namespace CottonCandy.Application.AppUsuario
                 Genero = usuario.Genero,
                 FotoPerfil = usuario.FotoPerfil,
                 Cargo = usuario.Cargo,
-                Cidade = usuario.Cidade
+                Cidade = usuario.Cidade,
+                FotoCapa = usuario.FotoCapa
             };
         }
 
-        public async Task<UsuarioViewModel> ObterInformacoesPorIdAsync(int id)
+        public async Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id)
         {
             var infos = await _usuarioRepository
                                 .ObterInformacoesPorIdAsync(id)
@@ -100,9 +103,9 @@ namespace CottonCandy.Application.AppUsuario
                 return default;
 
             if (postagens.Count == 0)
-                return default;
+                postagens = null;
 
-            return new UsuarioViewModel()
+            return new PerfilUsuarioViewModel()
             {
                 Id = infos.Id,
                 Nome = infos.Nome,
@@ -112,6 +115,7 @@ namespace CottonCandy.Application.AppUsuario
                 FotoPerfil = infos.FotoPerfil,
                 Cargo = infos.Cargo,
                 Cidade = infos.Cidade,
+                FotoCapa = infos.FotoCapa,
                 Postagens = postagens
             };
         }

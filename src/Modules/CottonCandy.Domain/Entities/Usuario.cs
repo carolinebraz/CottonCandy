@@ -14,7 +14,8 @@ namespace CottonCandy.Domain.Entities
                         Genero genero, 
                         string fotoPerfil, 
                         string cargo, 
-                        string cidade)
+                        string cidade,
+                        string fotoCapa)
         {
             Nome = nome;
             Email = email;
@@ -24,6 +25,7 @@ namespace CottonCandy.Domain.Entities
             FotoPerfil = fotoPerfil;
             Cargo = cargo;
             Cidade = cidade;
+            FotoCapa = fotoCapa;
 
         }
 
@@ -42,6 +44,7 @@ namespace CottonCandy.Domain.Entities
         public string FotoPerfil { get; private set; }
         public string Cargo { get; private set; }
         public string Cidade { get; private set; }
+        public string FotoCapa { get; private set; }
 
         public bool EhValido()
         {
@@ -50,10 +53,7 @@ namespace CottonCandy.Domain.Entities
                 string.IsNullOrEmpty(Email) ||
                 string.IsNullOrEmpty(Senha) ||
                 DataNascimento.ToShortDateString() == "01/01/0001" ||
-                Genero.Id <= 0 ||
-                string.IsNullOrEmpty(FotoPerfil) ||
-                string.IsNullOrEmpty(Cargo) ||
-                string.IsNullOrEmpty(Cidade))
+                Genero.Id <= 0 )
             {
                 valido = false;
             }

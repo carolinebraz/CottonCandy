@@ -57,13 +57,13 @@ namespace CottonCandy.API.Controllers
        
         [Authorize]
         [HttpPost]
-        [Route("{id}/Curtidas")]
-        public async Task<IActionResult> PostCurtidas([FromRoute] int id)
+        [Route("{idPostagem}/Curtidas")]
+        public async Task<IActionResult> PostCurtidas([FromRoute] int idPostagem)
         {
             try
             {
                 await _curtidasAppService
-                            .InsertAsync(id)
+                            .InsertAsync(idPostagem)
                             .ConfigureAwait(false);
 
                 return Created("", "");
@@ -76,12 +76,13 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{id}/Curtidas/Total")]
-        public async Task<IActionResult> GetCurtidas([FromRoute] int id)
+        [Route("{idPostagem}/Curtidas/Total")]
+        public async Task<IActionResult> GetCurtidas([FromRoute] int idPostagem)
         {
             try
             {
-                var quantity = await _curtidasAppService.GetQtdeCurtidasByPostagemIdAsync(id)
+                var quantity = await _curtidasAppService
+                                        .GetQtdeCurtidasByPostagemIdAsync(idPostagem)
                                         .ConfigureAwait(false);
 
                 return Ok(quantity);

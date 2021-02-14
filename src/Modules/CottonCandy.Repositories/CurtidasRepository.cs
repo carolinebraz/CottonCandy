@@ -118,9 +118,10 @@ namespace CottonCandy.Repositories
 
                     while (reader.Read())
                     {
-                        var curtida = new Curtidas(int.Parse(reader["PostagemId"].ToString()),
-                                                int.Parse(reader["UsuarioId"].ToString()));
+                        var curtida = new Curtidas(int.Parse(reader["UsuarioId"].ToString()),
+                                                int.Parse(reader["PostagemId"].ToString()));
 
+                        curtida.SetId(int.Parse(reader["Id"].ToString()));
                         return curtida;
                     }
 
@@ -158,7 +159,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<int> InsertAsync(Curtidas curtidas)
+        public async Task<int> InsertAsync(Curtidas curtida)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -171,8 +172,8 @@ namespace CottonCandy.Repositories
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("postagemId", curtidas.PostagemId);
-                    cmd.Parameters.AddWithValue("usuarioId", curtidas.UsuarioId);
+                    cmd.Parameters.AddWithValue("postagemId", curtida.PostagemId);
+                    cmd.Parameters.AddWithValue("usuarioId", curtida.UsuarioId);
 
                     con.Open();
                     var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);

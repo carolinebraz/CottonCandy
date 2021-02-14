@@ -10,7 +10,7 @@ namespace CottonCandy.Domain.Interfaces
     {
         Task<int> InsertAsync(Usuario usuario);
         Task<Usuario> GetByLoginAsync(string login);
-        //Task<Usuario> GetByIdAsync(int id);
+        Task<Usuario> GetByIdAsync(int id);
         Task<Usuario> ObterInformacoesPorIdAsync(int id);
     }
 }

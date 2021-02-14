@@ -26,6 +26,10 @@ namespace CottonCandy.Domain.Entities
         public int PostagemId { get; private set; }
         public string Tipo { get; private set; }
 
+        public void SetId(int id)
+        {
+            Id = id;
+        }
 
     }
 }

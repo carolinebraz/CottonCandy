@@ -22,7 +22,8 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<int> GetQtdeCurtidasByPostagemIdAsync(int postagemId)
         {
-            return await _curtidasRepository.GetQtdeCurtidasByPostagemIdAsync(postagemId)
+            return await _curtidasRepository
+                            .GetQtdeCurtidasByPostagemIdAsync(postagemId)
                             .ConfigureAwait(false);
         }
 
@@ -41,23 +42,27 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<int> InsertAsync(int postagemId)
         {
+            //Método que insere curtida na postagem
+
             var usuarioId = 1;//_logged.GetUserLoggedId();
 
-            var postagemJaCurtida = await _curtidasRepository
+            var curtida = await _curtidasRepository
                                                 .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)
                                                 .ConfigureAwait(false);
-         /*   if (postagemJaCurtida != null)
+            if (curtida != null)
             {
-                await _curtidasRepository.DeleteAsync(postagemJaCurtida.Id)
-                         .ConfigureAwait(false);
-            }*/
+               await _curtidasRepository.DeleteAsync(curtida.Id)
+                                        .ConfigureAwait(false);
+                return default;
+            }
+            else {
+                var novaCurtida = new Curtidas(usuarioId, postagemId);
+                //Validar os dados obriatorios..
 
-            var curtida = new Curtidas(postagemId, usuarioId);
-            //Validar os dados obriatorios..
-
-          return  await _curtidasRepository
-                    .InsertAsync(curtida)
-                    .ConfigureAwait(false);
+                return await _curtidasRepository
+                          .InsertAsync(novaCurtida)
+                          .ConfigureAwait(false);
+            }
         }
     }
 }
