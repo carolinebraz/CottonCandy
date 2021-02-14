@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppUsuario\Input\" />
-    <Folder Include="AppUsuario\Interfaces\" />
-    <Folder Include="AppUsuario\Output\" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
   </ItemGroup>
 
   <ItemGroup>

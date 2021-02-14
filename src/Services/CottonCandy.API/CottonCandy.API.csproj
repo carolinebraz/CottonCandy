@@ -1,16 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="3.1.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\CottonCandy.Application\CottonCandy.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\CottonCandy.Domain\CottonCandy.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\CottonCandy.Repositories.IoC\CottonCandy.Repositories.IoC.csproj" />
+    <ProjectReference Include="..\..\Modules\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
 
