@@ -4,6 +4,7 @@ using CottonCandy.Application.AppPostagem;
 using CottonCandy.Application.AppPostagem.Interfaces;
 using CottonCandy.Application.AppUser.Interfaces;
 using CottonCandy.Application.AppUsuario;
+using CottonCandy.Application.AppUsuario.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CottonCandy.Repositories.IoC.Application
@@ -16,6 +17,7 @@ namespace CottonCandy.Repositories.IoC.Application
             services.AddScoped<IPostagemAppService, PostagemAppService>();
             services.AddScoped<ICurtidasAppService, CurtidasAppService>();
             services.AddScoped<IAlbumFotosAppService, AlbumFotosAppService>();
+            services.AddScoped<ILoginAppService, LoginAppService>();
         }
     }
 }
