@@ -33,7 +33,9 @@ namespace CottonCandy.Repositories
                     cmd.CommandType = CommandType.Text;
                     con.Open();
 
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
 
                     while (reader.Read())
                     {

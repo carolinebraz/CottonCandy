@@ -109,6 +109,7 @@ namespace CottonCandy.Repositories
                                                   reader["Cidade"].ToString(),
                                                   reader["FotoCapa"].ToString());
 
+                        usuario.InformacaoLoginUsuario(reader["Email"].ToString(), reader["Senha"].ToString());
                         usuario.SetId(int.Parse(reader["Id"].ToString()));
                         usuario.Genero.SetId(int.Parse(reader["GeneroId"].ToString()));
                         

@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CottonCandy.API
 {
@@ -30,24 +33,47 @@ namespace CottonCandy.API
 
             services.AddControllers();
 
-            services.AddSwaggerGen(c => {
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secrets").Value); // pega a chave criptografada do appsettings e transforma em Bytes
+
+            services.AddAuthentication(x => //Avisa a API que vai utilizar um esquema de autenticação, no caso JWT
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters // parametros para validar o token
+                {
+                    ValidateIssuerSigningKey = true, //validar a assinatura com a chave da assinatura
+                    IssuerSigningKey = new SymmetricSecurityKey(key), //pega o Bytes e gera uma chave, e todo token gerado pela API é validado com essa chave
+                    ValidateLifetime = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddSwaggerGen(c =>
+            {
 
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
                         Title = "CottonCandy",
                         Version = "v1",
-                        Description = "API",
+                        Description = "Api CottonCandy",
                         Contact = new OpenApiContact
                         {
-                            Name = "Grupo 2",
-                            Url = new Uri("https://github.com/giovanaandrade/CottonCandy/")
+                            Name = "CottonCandy",
+                            Url = new Uri("https://github.com/carolinebraz/CottonCandy")
                         }
                     });
             });
 
             RegisterServices(services);
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

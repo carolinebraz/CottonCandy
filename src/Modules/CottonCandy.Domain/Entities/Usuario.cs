@@ -34,7 +34,6 @@ namespace CottonCandy.Domain.Entities
             Id = id;
         }
 
-
         public int Id { get; private set; }
         public string Nome { get; private set; }
         public string Email { get; private set; }
@@ -68,6 +67,12 @@ namespace CottonCandy.Domain.Entities
         public bool SenhaEhIgual(string senha)
         {
             return PasswordHasher.Verify(senha, Senha);
+        }
+
+        public void InformacaoLoginUsuario(string email, string senha)
+        {
+            Email = email;
+            Senha = senha;
         }
 
         public void SetId(int id)
