@@ -36,7 +36,7 @@ namespace CottonCandy.Repositories
                                 INNER JOIN
                                       Genero g ON g.Id = u.GeneroId
                                 WHERE
-                                       u.Id= '{id}'";
+                                       u.Email= '{id}'";
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
@@ -60,10 +60,9 @@ namespace CottonCandy.Repositories
 
                         return usuario;
                     }
-
-                    return default;
                 }
-                            
+
+                return default;
             }
         }
 
@@ -110,9 +109,9 @@ namespace CottonCandy.Repositories
                         
                         return usuario;
                     }
-
-                    return default;
                 }
+
+                return default;
             }
         }
 
@@ -156,55 +155,6 @@ namespace CottonCandy.Repositories
                     return int.Parse(id.ToString());
 
 
-                }
-            }
-        }
-
-        async Task<Usuario> ObterInformacoesPorIdAsync(int id)
-        {
-            using (var con = new SqlConnection(_configuration["ConnectionString"]))
-            {
-                var SqlCmd = @$"SELECT u.Id,
-                                      u.Nome,
-                                      u.Email,
-                                      u.Senha,
-                                      u.DataNascimento,
-                                      u.FotoPerfil,
-                                      u.Cargo,
-                                      u.Cidade,
-                                      g.Id as GeneroId,
-                                      g.Descricao
-                                FROM
-                                      Usuario u
-                                INNER JOIN
-                                      Genero g ON g.Id = u.GeneroId
-                                WHERE
-                                       u.Id= '{id}'";
-                using (var cmd = new SqlCommand(SqlCmd, con))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    con.Open();
-
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
-
-                    while (reader.Read())
-                    {
-                        var usuario = new Usuario(reader["Nome"].ToString(),
-                                                  reader["Email"].ToString(),
-                                                  reader["Senha"].ToString(),
-                                                  DateTime.Parse(reader["DataNascimento"].ToString()),
-                                                  new Genero(reader["Descricao"].ToString()),
-                                                  reader["FotoPerfil"].ToString(),
-                                                  reader["Cargo"].ToString(),
-                                                  reader["Cidade"].ToString());
-
-                        usuario.SetId(int.Parse(reader["Id"].ToString()));
-                        usuario.Genero.SetId(int.Parse(reader["GeneroId"].ToString()));
-
-                        return usuario;
-                    }
-
-                    return default;
                 }
             }
         }

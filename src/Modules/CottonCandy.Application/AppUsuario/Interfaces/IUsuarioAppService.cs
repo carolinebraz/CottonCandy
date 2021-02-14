@@ -10,8 +10,6 @@ namespace CottonCandy.Application.AppUser.Interfaces
     public interface IUsuarioAppService
     {
         Task<UsuarioViewModel> InsertAsync(UsuarioInput input);
-        //Task<UsuarioViewModel> GetByIdAsync(int id);
-        Task<UsuarioViewModel> ObterInformacoesPorIdAsync(int id);
-
+        Task<UsuarioViewModel> GetByIdAsync(int id);
     }
 }

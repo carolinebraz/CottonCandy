@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CottonCandy.Repositories.Io
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Application", "1-Application", "{3EC29BE4-77C5-4A8B-BC3C-ECD11BA2AB96}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CottonCandy.Application", "src\Modules\CottonCandy.Application\CottonCandy.Application.csproj", "{3D585873-6C06-43CE-92A7-3EF8634D8976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CottonCandy.Application", "src\Modules\CottonCandy.Application\CottonCandy.Application.csproj", "{3D585873-6C06-43CE-92A7-3EF8634D8976}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CottonCandy.Repositories", "src\Modules\CottonCandy.Repositories\CottonCandy.Repositories.csproj", "{8B65A11F-332F-4BA4-AE92-A8BD750CDF63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CottonCandy.Repositories", "src\Modules\CottonCandy.Repositories\CottonCandy.Repositories.csproj", "{8B65A11F-332F-4BA4-AE92-A8BD750CDF63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

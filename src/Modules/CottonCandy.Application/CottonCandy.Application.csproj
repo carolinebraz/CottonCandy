@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
+    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
+    <ProjectReference Include="..\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
+    <Folder Include="AppPostagem\" />
+    <Folder Include="AppPostagem\Interfaces\" />
+    <Folder Include="AppPostagem\Input\" />
   </ItemGroup>
-
 </Project>

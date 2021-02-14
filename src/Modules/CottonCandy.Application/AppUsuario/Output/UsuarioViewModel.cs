@@ -15,6 +15,5 @@ namespace CottonCandy.Application.AppUser.Output
         public string FotoPerfil { get; set; }
         public string Cargo { get; set; }
         public string Cidade { get; set; }
-        public List<Postagem> Postagens { get; set; }
     }
 }
