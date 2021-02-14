@@ -1,13 +1,16 @@
 using CottonCandy.Repositories.IoC;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace CottonCandy.API
@@ -24,11 +27,15 @@ namespace CottonCandy.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+            .AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+             .AddNegotiate();
+
             services.AddControllers();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secrets").Value); // pega a chave criptografada do appsettings e transforma em Bytes
 
-            services.AddAuthentication(x => //Avisa a API que vai utilizar um esquema de autenticação, no caso JWT
+            services.AddAuthentication(x => //Avisa a API que vai utilizar um esquema de autenticaÃ§Ã£o, no caso JWT
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,7 +47,7 @@ namespace CottonCandy.API
                 x.TokenValidationParameters = new TokenValidationParameters // parametros para validar o token
                 {
                     ValidateIssuerSigningKey = true, //validar a assinatura com a chave da assinatura
-                    IssuerSigningKey = new SymmetricSecurityKey(key), //pega o Bytes e gera uma chave, e todo token gerado pela API é validado com essa chave
+                    IssuerSigningKey = new SymmetricSecurityKey(key), //pega o Bytes e gera uma chave, e todo token gerado pela API Ã© validado com essa chave
                     ValidateLifetime = true,
                     ValidateIssuer = false,
                     ValidateAudience = false
@@ -59,7 +66,7 @@ namespace CottonCandy.API
                         Contact = new OpenApiContact
                         {
                             Name = "CottonCandy",
-                            Url = new Uri("https://github.com/giovanaandrade/CottonCandy")
+                            Url = new Uri("https://github.com/carolinebraz/CottonCandy")
                         }
                     });
             });
@@ -77,7 +84,7 @@ namespace CottonCandy.API
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -93,7 +100,7 @@ namespace CottonCandy.API
 
         void RegisterServices(IServiceCollection services)
         {
-            new RootBootstraper().RootRegisterServices(services);
+            new RootBootstrapper().RootRegisterServices(services);
         }
     }
 }

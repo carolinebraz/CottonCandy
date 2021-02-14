@@ -1,19 +1,21 @@
-﻿using System;
+﻿using CottonCandy.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CottonCandy.Application.AppUsuario.Input
+namespace CottonCandy.Application.AppUser.Output
 {
-    public class UsuarioInput
+    public class PerfilUsuarioViewModel
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
-        public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
-        public int GeneroId { get; set; }
+        public Genero Genero { get; set; }
         public string FotoPerfil { get; set; }
         public string Cargo { get; set; }
         public string Cidade { get; set; }
         public string FotoCapa { get; set; }
+        public List<Postagem> Postagens { get; set; }
     }
 }

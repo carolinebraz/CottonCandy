@@ -1,6 +1,8 @@
 ﻿using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -20,15 +22,13 @@ namespace CottonCandy.Repositories
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var sqlCmd = @$"SELECT 
-                                     Id,
-	                                 Descricao
-                                FROM 
-	                                Genero
-                                WHERE 
-	                                Id={id}";
-
-                using (var cmd = new SqlCommand(sqlCmd, con))
+                var SqlCmd = @$"SELECT Id, 
+                                       Descricao
+                                FROM
+                                      Genero
+                                WHERE
+                                       Id= '{id}'";
+                using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
@@ -44,9 +44,9 @@ namespace CottonCandy.Repositories
 
                         return genero;
                     }
-
-                    return default;
                 }
+
+                return default;
             }
         }
     }
