@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppUsuario\Input\" />
-    <Folder Include="AppUsuario\Interfaces\" />
-    <Folder Include="AppUsuario\Output\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
   </ItemGroup>
 

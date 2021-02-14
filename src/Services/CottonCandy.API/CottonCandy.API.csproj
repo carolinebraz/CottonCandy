@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\CottonCandy.Application\CottonCandy.Application.csproj" />
     <ProjectReference Include="..\..\Modules\CottonCandy.Repositories.IoC\CottonCandy.Repositories.IoC.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 </Project>
