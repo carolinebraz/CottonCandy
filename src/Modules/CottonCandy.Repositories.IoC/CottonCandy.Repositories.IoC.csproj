@@ -5,9 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CottonCandy.Application\CottonCandy.Application.csproj" />
-    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
-    <ProjectReference Include="..\CottonCandy.Repository\CottonCandy.Repositories.csproj" />
+    <ProjectReference Include="..\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
