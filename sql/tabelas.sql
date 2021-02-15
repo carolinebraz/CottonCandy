@@ -1,15 +1,15 @@
-﻿--Criação do Database
+﻿--Cria Database
 CREATE DATABASE CottonCandy;
 USE CottonCandy;
 
---Criação da tabela de gênero
+--Cria tabela de gênero
 CREATE TABLE dbo.Genero (
    Id int IDENTITY(1,1) NOT NULL,
    Descricao varchar(50) NOT NULL,
    CONSTRAINT PK_Genero_Id PRIMARY KEY CLUSTERED (Id)
 )
 
---Criação da tabela de usuário
+--Cria tabela de usuário
 CREATE TABLE dbo.Usuario (
 	Id int IDENTITY(1,1) NOT NULL,
 	GeneroId int NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE dbo.Usuario (
 		REFERENCES dbo.Genero (Id)
 )
 
---Criação da tabela de postagem
+--Cria tabela de postagem
 CREATE TABLE dbo.Postagem (
    Id int IDENTITY(1,1) NOT NULL,
    UsuarioId int NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE dbo.Postagem (
 		REFERENCES dbo.Usuario (Id)
 )
 
---Criação da tabela de comentários
+--Cria tabela de comentários
 CREATE TABLE dbo.Comentario (
 	Id int IDENTITY(1,1) NOT NULL,
 	UsuarioId int NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE dbo.Comentario (
 		REFERENCES dbo.Postagem (Id)
 )
 
---Criação da tabela de curtidas
+--Cria tabela de curtidas
 CREATE TABLE dbo.Curtidas (
 	Id int IDENTITY(1,1) NOT NULL,
 	UsuarioId int NOT NULL,
@@ -69,10 +69,38 @@ CREATE TABLE dbo.Curtidas (
 		REFERENCES dbo.Postagem (Id)
 )
 
---Inserção de valores na tabela de gêneros
+--Cria tabela de amigos
+CREATE TABLE dbo.Amigos (
+	Id int IDENTITY(1,1) NOT NULL,
+	IdSeguidor int NOT NULL,
+	IdSeguido int NOT NULL,
+	CONSTRAINT PK_Amigos_Id PRIMARY KEY CLUSTERED (Id),
+
+	CONSTRAINT FK_Amigos_Usuario FOREIGN KEY (UsuarioId)
+		REFERENCES dbo.Usuario (Id)
+)
+
+--Insere valores na tabela de gênero
 INSERT INTO Genero VALUES ('Feminino')
 INSERT INTO Genero VALUES ('Masculino')
 INSERT INTO Genero VALUES ('Personalizado')
+
+--Atualiza tabela de gênero
+UPDATE Genero
+	SET Descricao = ('Neutro')
+	WHERE Id = 3
+
+--Altera colunas FotoPerfil, Cargo e Cidade na tabela de usuário
+ALTER TABLE Usuario
+	ALTER COLUMN FotoPerfil varchar(max) NULL
+ALTER TABLE Usuario
+	ALTER COLUMN Cargo varchar(50) NULL
+ALTER TABLE Usuario
+	ALTER COLUMN Cidade varchar(50) NULL
+
+--Insere coluna FotoCapa na tabela de usuário
+ALTER TABLE Usuario
+	ADD FotoCapa varchar(max)
 
 SELECT
 	u.Id,
@@ -91,3 +119,4 @@ SELECT * FROM Genero
 SELECT * FROM Postagem
 SELECT * FROM Curtidas
 SELECT * FROM Comentario
+SELECT * FROM Amigos
