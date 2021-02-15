@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Interfaces\NovaPasta\**" />
+    <EmbeddedResource Remove="Core\Interfaces\NovaPasta\**" />
+    <None Remove="Core\Interfaces\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
   </ItemGroup>
 

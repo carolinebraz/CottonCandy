@@ -1,6 +1,7 @@
 ﻿
 using CottonCandy.Application.AppUser.Interfaces;
 using CottonCandy.Application.AppUsuario.Input;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,7 +21,7 @@ namespace CottonCandy.API.Controllers
         {
             _usuarioAppService = usuarioAppService;
         }
-
+        [AllowAnonymous] // atributo para permitir o acesso por usuários não autenticados a ações individuais
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UsuarioInput usuarioInput)
         {
@@ -36,6 +37,7 @@ namespace CottonCandy.API.Controllers
   
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)

@@ -27,9 +27,7 @@ namespace CottonCandy.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-            .AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-             .AddNegotiate();
+           //services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
 
             services.AddControllers();
 
@@ -40,13 +38,13 @@ namespace CottonCandy.API
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer(x => //configuracoes para gerar o token de acordo com os parametros esperados
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters // parametros para validar o token
                 {
-                    ValidateIssuerSigningKey = true, //validar a assinatura com a chave da assinatura
+                    ValidateIssuerSigningKey = true, //validar a assinatura com a chave da assinatura que esta no appsettings
                     IssuerSigningKey = new SymmetricSecurityKey(key), //pega o Bytes e gera uma chave, e todo token gerado pela API é validado com essa chave
                     ValidateLifetime = true,
                     ValidateIssuer = false,

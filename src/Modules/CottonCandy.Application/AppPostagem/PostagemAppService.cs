@@ -1,5 +1,6 @@
 ﻿using CottonCandy.Application.AppPostagem.Input;
 using CottonCandy.Application.AppPostagem.Interfaces;
+using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
@@ -7,22 +8,22 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CottonCandy.Application
+namespace CottonCandy.Application.AppPostagem
 {
     public class PostagemAppService : IPostagemAppService
     {
         private readonly IPostagemRepository _postagemRepository;
-        //private readonly ILogged _logged;
-        public PostagemAppService(IPostagemRepository postagemRepository)
-                               //  ILogged logged)
+        private readonly ILogado _logado;
+        public PostagemAppService(IPostagemRepository postagemRepository,
+        ILogado logado)
         {
             _postagemRepository = postagemRepository;
-           // _logged = logged;
+            _logado = logado;
         }
 
         public async Task<List<Postagem>> GetByUserIdAsync()
         {
-            var userId = 1; //_logged.GetUserLoggedId();
+            var userId = _logado.GetUsuarioLogadoId();
 
             var postages = await _postagemRepository.ObterInformacoesPorIdAsync(userId)
                                     .ConfigureAwait(false);
@@ -31,7 +32,7 @@ namespace CottonCandy.Application
 
         public async Task<Postagem> InsertAsync(PostagemInput input)
         {
-            var userId = 1; // _logged.GetUserLoggedId();
+            var userId = _logado.GetUsuarioLogadoId();
 
             var postagem = new Postagem(input.Texto, input.FotoPost, userId);
 
