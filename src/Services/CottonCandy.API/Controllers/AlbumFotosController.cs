@@ -1,5 +1,6 @@
 ﻿using CottonCandy.Application.AppPostagem.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace CottonCandy.API.Controllers
             _albumFotosAppService = albumFotosAppService;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id}/AlbumFotos")]
         public async Task<IActionResult> GetFotos([FromRoute] int id)

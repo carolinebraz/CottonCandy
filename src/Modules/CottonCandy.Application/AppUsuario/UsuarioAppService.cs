@@ -1,6 +1,7 @@
 ﻿using CottonCandy.Application.AppUser.Interfaces;
 using CottonCandy.Application.AppUser.Output;
 using CottonCandy.Application.AppUsuario.Input;
+using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
@@ -13,14 +14,17 @@ namespace CottonCandy.Application.AppUsuario
         private readonly IGeneroRepository _generoRepository;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IPostagemRepository _postagemRepository;
+        private readonly ILogado _logado;
 
         public UsuarioAppService(IGeneroRepository generoRepository,
                                 IUsuarioRepository usuarioRepository,
-                                IPostagemRepository postagemRepository)
+                                IPostagemRepository postagemRepository,
+                                ILogado logado)
         {
             _generoRepository = generoRepository;
             _usuarioRepository = usuarioRepository;
             _postagemRepository = postagemRepository;
+            _logado = logado;
         }
         public async Task<UsuarioViewModel> GetByIdAsync(int id)
         {
@@ -118,6 +122,19 @@ namespace CottonCandy.Application.AppUsuario
                 FotoCapa = infos.FotoCapa,
                 Postagens = postagens
             };
+        }
+
+        public async Task<int> SeguirAsync(int idSeguido)
+        {
+            var idSeguidor = _logado.GetUsuarioLogadoId();
+
+            //Validar classe com dados obrigatorios..
+
+            int idRelacionamento = await _usuarioRepository
+                             .SeguirAsync(idSeguidor, idSeguido)
+                             .ConfigureAwait(false);
+
+            return idRelacionamento;
         }
     }
 }

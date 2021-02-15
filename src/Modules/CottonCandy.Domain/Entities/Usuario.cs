@@ -26,13 +26,14 @@ namespace CottonCandy.Domain.Entities
             Cargo = cargo;
             Cidade = cidade;
             FotoCapa = fotoCapa;
+            Amigos = new List<Usuario>();
 
         }
 
-        public Usuario(int id)
-        {
-            Id = id;
-        }
+        //public Usuario(int id)
+        //{
+        //    Id = id;
+        //}
 
         public int Id { get; private set; }
         public string Nome { get; private set; }
@@ -44,6 +45,7 @@ namespace CottonCandy.Domain.Entities
         public string Cargo { get; private set; }
         public string Cidade { get; private set; }
         public string FotoCapa { get; private set; }
+        public List<Usuario> Amigos { get; private set; }
 
         public bool EhValido()
         {

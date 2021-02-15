@@ -54,6 +54,7 @@ namespace CottonCandy.API.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         [Route("perfil/{id}")]
         public async Task<IActionResult> GetUsuarioPerfil([FromRoute] int id)
@@ -68,6 +69,24 @@ namespace CottonCandy.API.Controllers
 
             return Ok(perfil);
 
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("seguir/{idSeguido}")]
+        public async Task<IActionResult> SeguirUsuario([FromRoute] int idSeguido)
+        {
+            try
+            {
+                var idRelacionamento = await _usuarioAppService.SeguirAsync(idSeguido)
+                                                        .ConfigureAwait(false);
+
+                return Created("", idRelacionamento);
+            }
+            catch (ArgumentException arg)
+            {
+                return BadRequest(arg.Message);
+            }
         }
     }
 }
