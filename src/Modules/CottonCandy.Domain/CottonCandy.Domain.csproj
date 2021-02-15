@@ -5,9 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Core\" />
+    <Compile Remove="Core\Interfaces\NovaPasta\**" />
+    <EmbeddedResource Remove="Core\Interfaces\NovaPasta\**" />
+    <None Remove="Core\Interfaces\NovaPasta\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
 </Project>

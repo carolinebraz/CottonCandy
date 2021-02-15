@@ -1,13 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CottonCandy.Application\CottonCandy.Application.csproj" />
-    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
-    <ProjectReference Include="..\CottonCandy.Repository\CottonCandy.Repositories.csproj" />
+    <ProjectReference Include="..\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
