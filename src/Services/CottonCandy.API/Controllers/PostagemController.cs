@@ -18,11 +18,12 @@ namespace CottonCandy.API.Controllers
         private readonly IComentarioAppService _comentarioAppService;
 
         public PostagemController(IPostagemAppService postagemAppService,
-                                  ICurtidasAppService curtidasAppService)
+                                  ICurtidasAppService curtidasAppService,
+                                  IComentarioAppService comentarioAppService)
         {
             _postagemAppService = postagemAppService;
             _curtidasAppService = curtidasAppService;
-
+            _comentarioAppService = comentarioAppService;
         }
 
         [Authorize]
@@ -100,13 +101,13 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("{id}/Comentarios")]
-        public async Task<IActionResult> PostComentarios([FromRoute] int id, [FromBody] ComentarioInput comentarioInput)
+        [Route("{idPostagem}/Comentarios")]
+        public async Task<IActionResult> PostComentarios([FromRoute] int idPostagem, [FromBody] ComentarioInput comentarioInput)
         {
             try
             {
                 var user = await _comentarioAppService
-                                    .InserirAsync(id, comentarioInput)
+                                    .InserirAsync(idPostagem, comentarioInput)
                                     .ConfigureAwait(false);
 
                 return Created("", user);  //traduzir?
@@ -119,11 +120,11 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{id}/Comentarios")]
-        public async Task<IActionResult> GetComments([FromRoute] int id)
+        [Route("{idPostagem}/Comentarios")]
+        public async Task<IActionResult> GetComments([FromRoute] int idPostagem)
         {
             var comments = await _comentarioAppService
-                                    .PegarComentariosPorIdPostagemAsync(id)
+                                    .PegarComentariosPorIdPostagemAsync(idPostagem)
                                     .ConfigureAwait(false);
 
             if (comments is null)

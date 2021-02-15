@@ -36,7 +36,7 @@ namespace CottonCandy.Repositories
 	                                   UsuarioId,
                                        PostagemId,
                                        Texto,
-                                       Criacao
+                                       DataComentario
                                 FROM 
 	                                Comentario
                                 WHERE 
@@ -59,10 +59,10 @@ namespace CottonCandy.Repositories
                     while (reader.Read())
                     {
                         var comentario = new Comentario(int.Parse(reader["Id"].ToString()),
-                                                    int.Parse(reader["IdPostagem"].ToString()),
-                                                    int.Parse(reader["IdUsuario"].ToString()),
+                                                    int.Parse(reader["PostagemId"].ToString()),
+                                                    int.Parse(reader["UsuarioId"].ToString()),
                                                     reader["Texto"].ToString(),
-                                                    DateTime.Parse(reader["DataCriacao"].ToString()));
+                                                    DateTime.Parse(reader["DataComentario"].ToString()));
 
                         comentariosDaPostagem.Add(comentario);
                     }//while
@@ -90,9 +90,9 @@ namespace CottonCandy.Repositories
                                 Comentario (UsuarioId,
                                              PostagemId,
                                              Texto,
-                                             Criacao)
-                                VALUES (@idUsuario,
-                                        @idPostagem,
+                                             DataComentario)
+                                VALUES (@usuarioId,
+                                        @postagemId,
                                         @texto,
                                         @datacriacao); SELECT scope_identity();";
 
@@ -105,7 +105,7 @@ namespace CottonCandy.Repositories
                     comando.Parameters.AddWithValue("usuarioId", comentario.IdUsuario);
                     comando.Parameters.AddWithValue("postagemId", comentario.IdPostagem);
                     comando.Parameters.AddWithValue("texto", comentario.Texto);
-                    comando.Parameters.AddWithValue("criacao", comentario.DataCriacao);
+                    comando.Parameters.AddWithValue("datacriacao", comentario.DataCriacao);
 
                     conexao.Open();
                     var id = await comando

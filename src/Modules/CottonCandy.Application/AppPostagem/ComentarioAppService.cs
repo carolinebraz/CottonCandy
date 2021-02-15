@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CottonCandy.Application.AppPostagem.Input;
 using CottonCandy.Application.AppPostagem.Interfaces;
+using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 
@@ -40,7 +41,7 @@ namespace CottonCandy.Application.AppPostagem
 
         async Task<Comentario> IComentarioAppService.InserirAsync(int idPostagem, ComentarioInput input)
         {
-            var usuarioId = _logado.PegarIdUsuarioLogado();
+            var usuarioId = _logado.GetUsuarioLogadoId();
 
             var comentario = new Comentario(idPostagem, usuarioId, input.Texto);
 
