@@ -12,5 +12,6 @@ namespace CottonCandy.Domain.Interfaces
         Task<Usuario> GetByLoginAsync(string login);
         Task<Usuario> GetByIdAsync(int id);
         Task<Usuario> ObterInformacoesPorIdAsync(int id);
+        Task<int> SeguirAsync(int idUsuarioSeguidor, int idUsuarioSeguido);
     }
 }
