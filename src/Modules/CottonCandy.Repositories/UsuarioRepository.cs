@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CottonCandy.Repositories
 {
@@ -12,9 +14,12 @@ namespace CottonCandy.Repositories
     {
         private readonly IConfiguration _configuration;
 
-        public UsuarioRepository(IConfiguration configuration)
+        private readonly PostagemRepository _postagemRepository;
+
+        public UsuarioRepository(IConfiguration configuration, PostagemRepository postagemRepository )
         {
             _configuration = configuration;
+            _postagemRepository = postagemRepository;
         }
 
         public async Task<Usuario> GetByIdAsync(int id)
@@ -242,6 +247,64 @@ namespace CottonCandy.Repositories
 
 
                 }
+            }
+        }
+
+
+        public async Task<List<Postagem>> GetPostagensByIdAsync(int idUsuarioLogado)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var SqlCmd = @$"SELECT a.IdSeguido,
+                                      
+                                FROM
+                                      Amigos a
+                                
+                                WHERE
+                                       a.IdSeguidor= '{idUsuarioLogado}'";
+
+
+              
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+
+                    List<int> ListaIdsDosAmigos = new List<int>();
+
+                    while (reader.Read())
+                    {
+                        var id = int.Parse(reader["IdSeguidor"].ToString());
+
+
+                        ListaIdsDosAmigos.Add(id);
+                    }
+
+                    
+
+                    var listaDePostagens = new List<Postagem>();
+
+                    listaDePostagens.AddRange(await _postagemRepository.ObterInformacoesPorIdAsync(idUsuarioLogado));
+
+
+                    foreach (var idAmigo in ListaIdsDosAmigos)
+                    {
+                         listaDePostagens.AddRange( await _postagemRepository.ObterInformacoesPorIdAsync(idAmigo));
+                    }
+
+
+                    List<Postagem> ListaOrdenadaDePostagens = listaDePostagens.OrderBy(o => o.DataPostagem).ToList();
+
+
+              
+
+
+
+                        return ListaOrdenadaDePostagens;
+                }
+
             }
         }
     }

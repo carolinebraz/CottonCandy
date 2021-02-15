@@ -13,5 +13,6 @@ namespace CottonCandy.Application.AppUser.Interfaces
         Task<UsuarioViewModel> GetByIdAsync(int id);
         Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id);
         Task<int> SeguirAsync(int idSeguido);
+        Task<LinhaDoTempoViewModel> ObterLinhaDoTempoAsync();
     }
 }
