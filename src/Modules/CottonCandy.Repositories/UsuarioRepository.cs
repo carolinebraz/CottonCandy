@@ -182,7 +182,7 @@ namespace CottonCandy.Repositories
                                       u.Cidade,
                                       u.FotoCapa,
                                       g.Id as GeneroId,
-                                      g.Descricao,
+                                      g.Descricao
                                 FROM
                                       Usuario u
                                 INNER JOIN

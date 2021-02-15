@@ -23,18 +23,18 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<List<Postagem>> GetByUserIdAsync()
         {
-            var userId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.GetUsuarioLogadoId();
 
-            var postages = await _postagemRepository.ObterInformacoesPorIdAsync(userId)
+            var postagens = await _postagemRepository.ObterInformacoesPorIdAsync(usuarioId)
                                     .ConfigureAwait(false);
-            return postages;
+            return postagens;
         }
 
         public async Task<Postagem> InsertAsync(PostagemInput input)
         {
-            var userId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.GetUsuarioLogadoId();
 
-            var postagem = new Postagem(input.Texto, input.FotoPost, userId);
+            var postagem = new Postagem(input.Texto, input.FotoPost, usuarioId);
 
             //Validar classe com dados obrigatorios..
 
