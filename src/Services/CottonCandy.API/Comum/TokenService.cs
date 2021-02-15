@@ -19,11 +19,10 @@ namespace CottonCandy.API.Comum
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, usuario.Nome.ToString()), 
-                    new Claim(ClaimTypes.Role, usuario.Genero.Descricao),
                     new Claim(JwtRegisteredClaimNames.Jti, usuario.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10), //tempo de validade do token
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)  
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)  // O SecurityAlgorithms pega os dados definidos e gera um token criptografado no JWT
             };
 
             var token = tokenHandler

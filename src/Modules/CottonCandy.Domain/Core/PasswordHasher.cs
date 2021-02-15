@@ -68,7 +68,7 @@ namespace CottonCandy.Domain.Core
         /// <param name="password">the password</param>
         /// <param name="hashedPassword">the hash</param>
         /// <returns>could be verified?</returns>
-        public static bool Verify(string password, string hashedPassword)
+        public static bool Verify(string password, string hashedPassword) // verifica se a senha informada é igual a do usuario
         {
             //check hash
             if (!IsHashSupported(hashedPassword))

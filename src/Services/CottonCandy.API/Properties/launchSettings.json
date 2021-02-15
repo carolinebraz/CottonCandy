@@ -1,6 +1,6 @@
 {
   "iisSettings": {
-    "windowsAuthentication": true,
+    "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
       "applicationUrl": "http://localhost/CottonCandy.API",

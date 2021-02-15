@@ -1,4 +1,5 @@
 ﻿using CottonCandy.Application.AppPostagem.Interfaces;
+using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
@@ -11,13 +12,13 @@ namespace CottonCandy.Application.AppPostagem
     public class CurtidasAppService : ICurtidasAppService
     {
         private readonly ICurtidasRepository _curtidasRepository;
-       // private readonly ILogged _logged;
+        private readonly ILogado _logado;
 
-        public CurtidasAppService(ICurtidasRepository CurtidasRepository)
-                           //    ILogged logged)
+        public CurtidasAppService(ICurtidasRepository CurtidasRepository,
+            ILogado logado)
         {
             _curtidasRepository = CurtidasRepository;
-           // _logged = logged;
+            _logado = logado;
         }
 
         public async Task<int> GetQtdeCurtidasByPostagemIdAsync(int postagemId)
@@ -44,7 +45,7 @@ namespace CottonCandy.Application.AppPostagem
         {
             //Método que insere curtida na postagem
 
-            var usuarioId = 1;//_logged.GetUserLoggedId();
+            var usuarioId = _logado.GetUsuarioLogadoId();
 
             var curtida = await _curtidasRepository
                                                 .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)

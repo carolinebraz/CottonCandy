@@ -37,19 +37,19 @@ namespace CottonCandy.API.Controllers
                                     .LoginAsync(input.Email, input.Senha) //informações do LoginInput
                                     .ConfigureAwait(false);
 
-                if (logado != null)
+                if (logado != null) // caso esteja usuario  e senha ok
                 {
-                    var token = TokenService.GenerateToken(logado, _configuration.GetSection("Secrets").Value);
+                    var token = TokenService.GenerateToken(logado, _configuration.GetSection("Secrets").Value); // gera o token chamando a TokenService
 
                     return new
                     {
                         authenticated = true,
-                        accessToken = token,
+                        accessToken = token, // retorno do acessToken
                         message = "OK"
                     };
                 }
 
-                return Unauthorized("Sem permissão");
+                return Unauthorized("Sem permissão"); //quer dizer que algum dado esta errado: email ou senha
             }
             catch (Exception ex)
             {
