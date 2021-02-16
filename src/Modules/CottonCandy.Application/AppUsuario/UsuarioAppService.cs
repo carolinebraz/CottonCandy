@@ -137,22 +137,7 @@ namespace CottonCandy.Application.AppUsuario
             return idRelacionamento;
         }
 
-        public async Task<LinhaDoTempoViewModel> ObterLinhaDoTempoAsync()
-        {
-
-            var idUsuarioLogado = _logado.GetUsuarioLogadoId();
-
-            var postagensDosAmigos = await _usuarioRepository
-                                .GetLinhaDoTempoIdAsync(idUsuarioLogado)
-                                .ConfigureAwait(false);
-
-
-
-            return new LinhaDoTempoViewModel()
-            {
-                PostagensDosAmigos = postagensDosAmigos
-        };
-        }
+       
 
 
     }

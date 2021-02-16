@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -127,6 +128,63 @@ namespace CottonCandy.Repositories
 
                     return fotosUsuario;
                 }
+            }
+        }
+
+        public async Task<List<Postagem>> GetLinhaDoTempoIdAsync(int idUsuarioLogado)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var SqlCmd = @$"SELECT 
+	                                        P.Id,
+                                            P.Texto,
+                                            P.DataPostagem,
+                                            P.FotoPost,
+                                            P.UsuarioId,
+	                                        U.Nome,
+                                            U.FotoPerfil
+                                        FROM 
+	                                        Postagem P
+                                        INNER JOIN 
+	                                        Amigos A ON A.IdSeguido = P.UsuarioId
+                                        INNER JOIN 
+	                                        Usuario U ON U.Id = A.IdSeguido 
+                                        WHERE
+	                                        A.IdSeguidor = '{idUsuarioLogado}'";
+
+
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+
+                    List<Postagem> listaPostagensDosAmigos = new List<Postagem>();
+
+                    while (reader.Read())
+                    {
+                        var postagem = new Postagem(reader["Texto"].ToString(),
+                                                     reader["FotoPost"].ToString(),
+                                                     int.Parse(reader["UsuarioId"].ToString()),
+                                                       DateTime.Parse(reader["DataPostagem"].ToString()));
+
+                        postagem.SetId(int.Parse(reader["Id"].ToString()));
+
+
+                        listaPostagensDosAmigos.Add(postagem);
+                    } 
+
+                    //adicionar postagens do usuario
+
+
+                   /* List<Postagem> ListaOrdenadaDePostagens =
+                        listaPostagensDosAmigos.OrderBy(o => o.DataPostagem).ToList();*/
+
+
+                    return listaPostagensDosAmigos;
+                }
+
             }
         }
     }

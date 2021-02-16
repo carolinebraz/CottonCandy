@@ -72,24 +72,6 @@ namespace CottonCandy.API.Controllers
         }
 
 
-        [Authorize]
-        [HttpGet]
-        [Route("linhaDoTempo")]
-        public async Task<IActionResult> LinhaDoTempo()
-        {
-            var perfil = await _usuarioAppService
-                                .ObterLinhaDoTempoAsync()
-                                //Método Get para usuários e postagens
-                                .ConfigureAwait(false);
-
-            //if (perfil is null)
-            //    return NotFound();
-
-            return Ok(perfil);
-
-        }
-
-
 
         [Authorize]
         [HttpPost]

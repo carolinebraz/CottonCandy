@@ -14,6 +14,14 @@ namespace CottonCandy.Domain.Entities
 			UsuarioId = usuarioId;
 		}
 
+		public Postagem(string texto, string fotoPost, int usuarioId, DateTime dataPostagem)
+		{
+			Texto = texto;
+			FotoPost = fotoPost;
+			DataPostagem = dataPostagem;
+			UsuarioId = usuarioId;
+		}
+
 		public int Id { get; private set; }
 		public int UsuarioId { get; private set; }
 		public string Texto { get; private set; }

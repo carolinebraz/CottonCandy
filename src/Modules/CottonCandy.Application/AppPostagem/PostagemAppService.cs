@@ -1,5 +1,6 @@
 ﻿using CottonCandy.Application.AppPostagem.Input;
 using CottonCandy.Application.AppPostagem.Interfaces;
+using CottonCandy.Application.AppUser.Output;
 using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
@@ -47,6 +48,23 @@ namespace CottonCandy.Application.AppPostagem
             postagem.SetId(id);
 
             return postagem;
+        }
+
+        public async Task<LinhaDoTempoViewModel> ObterLinhaDoTempoAsync()
+        {
+
+            var idUsuarioLogado = _logado.GetUsuarioLogadoId();
+
+            var postagensDosAmigos = await _postagemRepository
+                                .GetLinhaDoTempoIdAsync(idUsuarioLogado)
+                                .ConfigureAwait(false);
+
+
+
+            return new LinhaDoTempoViewModel()
+            {
+                PostagensDosAmigos = postagensDosAmigos
+            };
         }
     }
 }

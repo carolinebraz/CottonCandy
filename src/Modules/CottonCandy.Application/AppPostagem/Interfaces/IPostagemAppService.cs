@@ -1,4 +1,5 @@
 ﻿using CottonCandy.Application.AppPostagem.Input;
+using CottonCandy.Application.AppUser.Output;
 using CottonCandy.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
     {
         Task<Postagem> InsertAsync(PostagemInput input);
         Task<List<Postagem>> GetByUserIdAsync();
+        Task<LinhaDoTempoViewModel> ObterLinhaDoTempoAsync();
     }
 }
