@@ -1,6 +1,4 @@
-﻿
-using CottonCandy.Application;
-using CottonCandy.Application.AppPostagem;
+﻿using CottonCandy.Application.AppPostagem;
 using CottonCandy.Application.AppPostagem.Interfaces;
 using CottonCandy.Application.AppUser.Interfaces;
 using CottonCandy.Application.AppUsuario;
@@ -18,6 +16,7 @@ namespace CottonCandy.Repositories.IoC.Application
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<ILogado, Logado>();
+            services.AddScoped<IStorageHelper, StorageHelper>();
 
             services.AddScoped<IUsuarioAppService, UsuarioAppService>();
             services.AddScoped<IPostagemAppService, PostagemAppService>();
