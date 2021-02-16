@@ -24,6 +24,7 @@ namespace CottonCandy.Repositories.IoC.Application
             services.AddScoped<IAlbumFotosAppService, AlbumFotosAppService>();
             services.AddScoped<ILoginAppService, LoginAppService>();
             services.AddScoped<IComentarioAppService, ComentarioAppService>();
+            services.AddScoped<IAmigosAppService, AmigosAppService>();
         }
     }
 }

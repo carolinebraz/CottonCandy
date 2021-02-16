@@ -222,31 +222,6 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<int> SeguirAsync(int idUsuarioSeguidor, int idUsuarioSeguido)
-        {
-            using (var con = new SqlConnection(_configuration["ConnectionString"]))
-            {
-                var sqlCmd = @"INSERT INTO
-                                 Amigos (IdSeguidor,
-                                         IdSeguido)
-                                VALUES (@idSeguidor,
-                                        @idSeguido); SELECT scope_identity();";
-
-                using (var cmd = new SqlCommand(sqlCmd, con))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("IdSeguidor", idUsuarioSeguidor);
-                    cmd.Parameters.AddWithValue("IdSeguido", idUsuarioSeguido);
-
-                    con.Open();
-                    var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
-
-                    return int.Parse(id.ToString());
-                    //validar 
-
-                }
-            }
-        }
 
     
     }

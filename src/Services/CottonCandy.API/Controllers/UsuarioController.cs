@@ -1,6 +1,7 @@
 ﻿
 using CottonCandy.Application.AppUser.Interfaces;
 using CottonCandy.Application.AppUsuario.Input;
+using CottonCandy.Application.AppUsuario.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace CottonCandy.API.Controllers
         {
             _usuarioAppService = usuarioAppService;
         }
+
         [AllowAnonymous] // atributo para permitir o acesso por usuários não autenticados a ações individuais
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UsuarioInput usuarioInput)
@@ -69,26 +71,6 @@ namespace CottonCandy.API.Controllers
 
             return Ok(perfil);
 
-        }
-
-
-
-        [Authorize]
-        [HttpPost]
-        [Route("seguir/{idSeguido}")]
-        public async Task<IActionResult> SeguirUsuario([FromRoute] int idSeguido)
-        {
-            try
-            {
-                var idRelacionamento = await _usuarioAppService.SeguirAsync(idSeguido)
-                                                        .ConfigureAwait(false);
-
-                return Created("", idRelacionamento);
-            }
-            catch (ArgumentException arg)
-            {
-                return BadRequest(arg.Message);
-            }
         }
     }
 }

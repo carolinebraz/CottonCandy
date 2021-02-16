@@ -124,19 +124,6 @@ namespace CottonCandy.Application.AppUsuario
             };
         }
 
-        public async Task<int> SeguirAsync(int idSeguido)
-        {
-            var idSeguidor = _logado.GetUsuarioLogadoId();
-
-            //Validar classe com dados obrigatorios..
-
-            int idRelacionamento = await _usuarioRepository
-                             .SeguirAsync(idSeguidor, idSeguido)
-                             .ConfigureAwait(false);
-
-            return idRelacionamento;
-        }
-
        
 
 
