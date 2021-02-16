@@ -30,10 +30,11 @@ namespace CottonCandy.Domain.Entities
 
         }
 
-        //public Usuario(int id)
-        //{
-        //    Id = id;
-        //}
+        public Usuario(String nome, String fotoPerfil)
+        {
+            Nome = nome;
+            FotoPerfil = fotoPerfil;
+        }
 
         public int Id { get; private set; }
         public string Nome { get; private set; }

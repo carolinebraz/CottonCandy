@@ -222,6 +222,38 @@ namespace CottonCandy.Repositories
             }
         }
 
+            public async Task<Usuario> GetNomeFotoByIdUsuarioAsync(int idUsuario)
+            {
+                using (var con = new SqlConnection(_configuration["ConnectionString"]))
+                {
+                    var SqlCmd = @$"SELECT 
+                                      u.Nome,
+                                      u.FotoPerfil
+                                FROM
+                                      Usuario u
+                                WHERE
+                                       u.Id= '{idUsuario}'";
+                    using (var cmd = new SqlCommand(SqlCmd, con))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        con.Open();
+
+                        var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+
+                        while (reader.Read())
+                        {
+                        var usuario = new Usuario(reader["Nome"].ToString(),
+                                                  reader["FotoPerfil"].ToString());
+                                                  
+
+                            return usuario;
+                        }
+
+                        return default;
+                    }
+                }
+            }
+
 
     
     }

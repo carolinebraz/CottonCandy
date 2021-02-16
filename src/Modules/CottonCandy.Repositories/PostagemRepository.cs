@@ -49,7 +49,8 @@ namespace CottonCandy.Repositories
                     {
                         var postagem = new Postagem(reader["Texto"].ToString(),
                                                     reader["FotoPost"].ToString(),
-                                                    int.Parse(reader["UsuarioId"].ToString()));
+                                                    int.Parse(reader["UsuarioId"].ToString()),
+                                                    DateTime.Parse(reader["DataPostagem"].ToString()));
 
                         postagem.SetId(int.Parse(reader["Id"].ToString()));
 
