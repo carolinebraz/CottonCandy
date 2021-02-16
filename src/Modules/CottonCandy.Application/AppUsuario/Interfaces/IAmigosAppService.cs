@@ -9,6 +9,6 @@ namespace CottonCandy.Application.AppUsuario.Interfaces
     public interface IAmigosAppService
     {
         Task<int> SeguirAsync(int idSeguido);
-        Task<List<Amigos>> GetListaAmigos();
+        Task<List<int>> GetListaAmigos();
     }
 }

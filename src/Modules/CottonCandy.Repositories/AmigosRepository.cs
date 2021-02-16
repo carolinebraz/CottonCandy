@@ -49,13 +49,12 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<Amigos>> GetListaAmigos(int idUsuarioSeguidor)
+        public async Task<List<int>> GetListaAmigos(int idUsuarioSeguidor)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT Id,
-                                       IdSeguido,
-                                       DataAmizade
+                var SqlCmd = @$"SELECT 
+                                       IdSeguido
                                 FROM
                                       Amigos
                                 WHERE
@@ -68,19 +67,15 @@ namespace CottonCandy.Repositories
 
                     var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
 
-                    List<Amigos> listaAmigos = new List<Amigos>();
+                    List<int> listaIdAmigos = new List<int>();
 
                     while (reader.Read())
                     {
-                        var amigo = new Amigos(idUsuarioSeguidor,
-                                               int.Parse(reader["IdSeguido"].ToString()),
-                                               DateTime.Parse(reader["DataAmizade"].ToString()),
-                                               int.Parse(reader["Id"].ToString()));
-
-                        listaAmigos.Add(amigo);
+            
+                        listaIdAmigos.Add(int.Parse(reader["IdSeguido"].ToString()));
                     }
 
-                    return listaAmigos;
+                    return listaIdAmigos;
                 }
             }
 

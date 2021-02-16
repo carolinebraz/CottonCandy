@@ -9,6 +9,6 @@ namespace CottonCandy.Domain.Interfaces
     public interface IAmigosRepository
     {
         Task<int> SeguirAsync(Amigos amigo);
-        Task<List<Amigos>> GetListaAmigos(int idUsuarioSeguidor);
+        Task<List<int>> GetListaAmigos(int idUsuarioSeguidor);
     }
 }

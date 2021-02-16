@@ -9,7 +9,7 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
    
         public interface IComentarioAppService
         {
-            Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input); //ComentarioInput ainda nao existe
+            Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input); 
             Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem);
 
         }

@@ -17,12 +17,19 @@ namespace CottonCandy.Application.AppPostagem
     {
 
         private readonly IComentarioRepository _comentarioRepository;
+        private readonly IAmigosRepository _amigosRepository;
+        private readonly IPostagemRepository _postagemRepository;
         private readonly ILogado _logado;
 
 
-        public ComentarioAppService(IComentarioRepository comentarioRepositorio, ILogado logado)
+        public ComentarioAppService(IComentarioRepository comentarioRepositorio, 
+                                    IAmigosRepository amigosRepository, 
+                                    ILogado logado,
+                                    IPostagemRepository postagemRepository)
         {
             _comentarioRepository = comentarioRepositorio;
+            _amigosRepository = amigosRepository;
+            _postagemRepository = postagemRepository;
             _logado = logado;
         }
 
@@ -30,7 +37,7 @@ namespace CottonCandy.Application.AppPostagem
 
       
 
-        async Task<List<Comentario>> IComentarioAppService.PegarComentariosPorIdPostagemAsync(int idPostagem)
+        public async Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem)
         {
             var comentarios = await _comentarioRepository
                                      .PegarComentariosPorIdPostagemAsync(idPostagem)
@@ -39,21 +46,36 @@ namespace CottonCandy.Application.AppPostagem
             return comentarios;
         }
 
-        async Task<Comentario> IComentarioAppService.InserirAsync(int idPostagem, ComentarioInput input)
+        public async Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input)
         {
             var usuarioId = _logado.GetUsuarioLogadoId();
 
-            var comentario = new Comentario(idPostagem, usuarioId, input.Texto);
+            var usuarioPostagemId = await _postagemRepository.GetUsuarioIdByPostagemId(idPostagem);
 
-            //Validar os dados obrigatorios
+            var amigosId = await _amigosRepository.
+                                   GetListaAmigos(usuarioId)
+                                 .ConfigureAwait(false);
 
-            var id = await _comentarioRepository
-                              .InserirAsync(comentario)
-                              .ConfigureAwait(false);
 
-            comentario.SetId(id);
+            if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
+            {
+                var comentario = new Comentario(idPostagem, usuarioId, input.Texto);
 
-            return comentario;
+                //Validar os dados obrigatorios
+
+                var id = await _comentarioRepository
+                                  .InserirAsync(comentario)
+                                  .ConfigureAwait(false);
+
+                comentario.SetId(id);
+
+                return comentario;
+
+            }
+            else
+            {
+                throw new Exception("Você não pode comentar essa publicação, porque você não segue este usuário");
+            }
         }
     }
 }

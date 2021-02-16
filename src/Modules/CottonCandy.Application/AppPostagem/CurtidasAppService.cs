@@ -12,12 +12,18 @@ namespace CottonCandy.Application.AppPostagem
     public class CurtidasAppService : ICurtidasAppService
     {
         private readonly ICurtidasRepository _curtidasRepository;
+        private readonly IPostagemRepository _postagemRepository;
+        private readonly IAmigosRepository _amigosRepository;
         private readonly ILogado _logado;
 
         public CurtidasAppService(ICurtidasRepository CurtidasRepository,
-            ILogado logado)
+                                    ILogado logado,
+                                    IPostagemRepository postagemRepository,
+                                    IAmigosRepository amigosRepository)
         {
             _curtidasRepository = CurtidasRepository;
+            _postagemRepository = postagemRepository;
+            _amigosRepository = amigosRepository;
             _logado = logado;
         }
 
@@ -50,19 +56,33 @@ namespace CottonCandy.Application.AppPostagem
             var curtida = await _curtidasRepository
                                                 .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)
                                                 .ConfigureAwait(false);
-            if (curtida != null)
-            {
-               await _curtidasRepository.DeleteAsync(curtida.Id)
-                                        .ConfigureAwait(false);
-                return default;
-            }
-            else {
-                var novaCurtida = new Curtidas(usuarioId, postagemId);
-                //Validar os dados obriatorios..
 
-                return await _curtidasRepository
-                          .InsertAsync(novaCurtida)
-                          .ConfigureAwait(false);
+            var usuarioPostagemId = await _postagemRepository.GetUsuarioIdByPostagemId(postagemId);
+
+            var amigosId = await _amigosRepository.
+                                   GetListaAmigos(usuarioId)
+                                 .ConfigureAwait(false);
+
+            if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
+            {
+                if (curtida != null)
+                {
+                    await _curtidasRepository.DeleteAsync(curtida.Id)
+                                             .ConfigureAwait(false);
+                    return default;
+                }
+                else
+                {
+                    var novaCurtida = new Curtidas(usuarioId, postagemId);
+                    //Validar os dados obriatorios..
+
+                    return await _curtidasRepository
+                              .InsertAsync(novaCurtida)
+                              .ConfigureAwait(false);
+                }
+            } else
+            {
+                throw new Exception("Você não pode curtir essa publicação, porque você não segue este usuário");
             }
         }
     }

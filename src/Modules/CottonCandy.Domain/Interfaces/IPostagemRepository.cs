@@ -12,5 +12,6 @@ namespace CottonCandy.Domain.Interfaces
         Task<List<Postagem>> ObterInformacoesPorIdAsync(int usuarioId);
         Task<List<String>> GetByUserIdOnlyPhotosAsync(int usuarioId);
         Task<List<Postagem>> GetLinhaDoTempoIdAsync(int id);
+        Task<int> GetUsuarioIdByPostagemId(int postagemId);
     }
 }

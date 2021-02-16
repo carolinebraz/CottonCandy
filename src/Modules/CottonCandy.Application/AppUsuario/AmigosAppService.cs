@@ -4,6 +4,7 @@ using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace CottonCandy.Application.AppUsuario
             _logado = logado;
         }
 
-        public async Task<List<Amigos>> GetListaAmigos()
+        public async Task<List<int>> GetListaAmigos()
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
@@ -37,20 +38,17 @@ namespace CottonCandy.Application.AppUsuario
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
-            var amigos = await _amigosRepository.
+            var idAmigos = await _amigosRepository.
                                     GetListaAmigos(idSeguidor)
                                   .ConfigureAwait(false);
 
-            foreach (Amigos amigo in amigos)
-            {
-
-
-                if (amigo.IdUsuarioSeguido == idSeguido)
+        
+             if (idAmigos.Contains(idSeguido))
                 {
                     throw new Exception("Você já segue esse usuário");
                 }
 
-            } var novoAmigo = new Amigos(idSeguidor, idSeguido);
+            var novoAmigo = new Amigos(idSeguidor, idSeguido);
 
                 int idRelacionamento = await _amigosRepository
                              .SeguirAsync(novoAmigo)

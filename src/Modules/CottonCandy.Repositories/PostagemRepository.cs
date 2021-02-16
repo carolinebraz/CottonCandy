@@ -61,6 +61,41 @@ namespace CottonCandy.Repositories
             }
         }
 
+        public async Task<int> GetUsuarioIdByPostagemId(int postagemId)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var sqlCmd = @$"SELECT 
+                                       UsuarioId
+                                FROM 
+	                                Postagem
+                                WHERE 
+	                                Id= '{postagemId}'";
+
+                using (var cmd = new SqlCommand(sqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
+
+                    var postagensUsuario = new List<Postagem>();
+
+                    int id = -300;
+
+                    while (reader.Read())
+                    {
+                        id = int.Parse(reader["UsuarioId"].ToString());
+                       
+                    }
+
+                    return id;
+                }
+            }
+        }
+
         public async Task<int> InsertAsync(Postagem postagem)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
