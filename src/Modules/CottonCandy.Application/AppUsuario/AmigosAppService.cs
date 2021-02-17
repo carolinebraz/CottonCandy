@@ -1,4 +1,5 @@
 ﻿using CottonCandy.Application.AppUsuario.Interfaces;
+using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
@@ -20,14 +21,26 @@ namespace CottonCandy.Application.AppUsuario
             _logado = logado;
         }
 
-        public async Task<List<int>> GetListaAmigos()
+        public async Task<List<AmigosViewModel>> GetListaAmigos()
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
             var amigos = await _amigosRepository
-                                    .GetListaAmigos(idSeguidor)
+                                    .GetListaAmigosNomeId(idSeguidor)
                                     .ConfigureAwait(false);
-            return amigos;
+
+            List<AmigosViewModel> listaAmigos = new List<AmigosViewModel>();
+
+            foreach(Amigos amigo in amigos)
+            {
+                listaAmigos.Add(new AmigosViewModel()
+                {
+                     IdAmigo = amigo.IdUsuarioSeguido, 
+                     NomeAmigo = amigo.NomeAmigo
+                });
+            }
+
+            return listaAmigos;
 
         }
 

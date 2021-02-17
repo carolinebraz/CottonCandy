@@ -75,5 +75,37 @@ namespace CottonCandy.Repositories
             }
 
         }
+
+        public async Task<List<Amigos>> GetListaAmigosNomeId(int idUsuarioSeguidor)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var SqlCmd = @$"SELECT a.IdSeguido, u.Nome
+                                    FROM Amigos a
+                                    INNER JOIN
+                                    Usuario u ON u.Id = a.IdSeguido
+                                    WHERE IdSeguidor =  '{idUsuarioSeguidor}'";
+
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+
+                    List<Amigos> listaAmigos = new List<Amigos>();
+
+                    while (reader.Read())
+                    {
+                        listaAmigos.Add(new Amigos(int.Parse(reader["IdSeguido"].ToString()),
+                                                            reader["Nome"].ToString()));
+                    }
+
+                    return listaAmigos;
+                }
+            }
+
+        }
+    
     }
 }

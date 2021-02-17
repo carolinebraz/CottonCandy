@@ -6,6 +6,6 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
 {
     public interface IAlbumFotosAppService
     {
-        Task<List<String>> GetByUserIdOnlyPhotoAsync(int userId);
+        Task<List<String>> GetByUserIdOnlyPhotoAsync();
     }
 }

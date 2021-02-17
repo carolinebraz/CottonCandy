@@ -1,4 +1,6 @@
 ﻿using CottonCandy.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Domain.Interfaces
@@ -10,5 +12,6 @@ namespace CottonCandy.Domain.Interfaces
         Task<Usuario> GetByIdAsync(int id);
         Task<Usuario> ObterInformacoesPorIdAsync(int id);
         Task<Usuario> GetNomeFotoByIdUsuarioAsync(int idUsuario);
+        Task<List<String>> GetEmail();
     }
 }

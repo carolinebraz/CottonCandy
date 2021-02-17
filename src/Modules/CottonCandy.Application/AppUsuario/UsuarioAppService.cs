@@ -55,42 +55,52 @@ namespace CottonCandy.Application.AppUsuario
                                    .GetByIdAsync(input.GeneroId)
                                    .ConfigureAwait(false);
 
-            if (genero is null)
+            var listaEmails = await _usuarioRepository.GetEmail();
+
+            if (listaEmails.Contains(input.Email))
             {
-                throw new ArgumentException("O gênero que está tentando associar ao usuário não existe!");
+                throw new ArgumentException("Esse e-mail já está cadastrado");
             }
-
-            var usuario = new Usuario(input.Nome,
-                                      input.Email,
-                                      input.Senha,
-                                      input.DataNascimento,
-                                      new Genero(genero.Id, genero.Descricao),
-                                      input.FotoPerfil,
-                                      input.Cargo,
-                                      input.Cidade,
-                                      input.FotoCapa);
-
-            if (!usuario.EhValido())
+            else
             {
-                throw new ArgumentException("Dados obrigatórios não preenchidos");
+
+                if (genero is null)
+                {
+                    throw new ArgumentException("O gênero que está tentando associar ao usuário não existe!");
+                }
+
+                var usuario = new Usuario(input.Nome,
+                                          input.Email,
+                                          input.Senha,
+                                          input.DataNascimento,
+                                          new Genero(genero.Id, genero.Descricao),
+                                          input.FotoPerfil,
+                                          input.Cargo,
+                                          input.Cidade,
+                                          input.FotoCapa);
+
+                if (!usuario.EhValido())
+                {
+                    throw new ArgumentException("Dados obrigatórios não preenchidos");
+                }
+
+                var id = await _usuarioRepository
+                                    .InsertAsync(usuario)
+                                    .ConfigureAwait(false);
+
+                return new UsuarioViewModel()
+                {
+                    Id = id,
+                    Nome = usuario.Nome,
+                    Email = usuario.Email,
+                    DataNascimento = usuario.DataNascimento,
+                    Genero = usuario.Genero,
+                    FotoPerfil = usuario.FotoPerfil,
+                    Cargo = usuario.Cargo,
+                    Cidade = usuario.Cidade,
+                    FotoCapa = usuario.FotoCapa
+                };
             }
-
-            var id = await _usuarioRepository
-                                .InsertAsync(usuario)
-                                .ConfigureAwait(false);
-
-            return new UsuarioViewModel()
-            {
-                Id = id,
-                Nome = usuario.Nome,
-                Email = usuario.Email,
-                DataNascimento = usuario.DataNascimento,
-                Genero = usuario.Genero,
-                FotoPerfil = usuario.FotoPerfil,
-                Cargo = usuario.Cargo,
-                Cidade = usuario.Cidade,
-                FotoCapa = usuario.FotoCapa
-            };
         }
 
         public async Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id)

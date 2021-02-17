@@ -1,4 +1,5 @@
 ﻿using CottonCandy.Application.AppPostagem.Interfaces;
+using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,19 @@ namespace CottonCandy.Application.AppPostagem
     public class AlbumFotosAppService : IAlbumFotosAppService
     {
         private readonly IPostagemRepository _postagemRepository;
-        //private readonly ILogged _logged;
-        public AlbumFotosAppService(IPostagemRepository postagemRepository)
-        //  ILogged logged)
+        private readonly ILogado _logado;
+        public AlbumFotosAppService(IPostagemRepository postagemRepository, ILogado logado)
         {
             _postagemRepository = postagemRepository;
-            // _logged = logged;
+            _logado = logado;
         }
 
-        public async Task<List<String>> GetByUserIdOnlyPhotoAsync(int userId)
+        public async Task<List<String>> GetByUserIdOnlyPhotoAsync()
         {
-            //var userId = 1; //_logged.GetUserLoggedId();
+            var usuarioId = _logado.GetUsuarioLogadoId();
 
             var fotos = await _postagemRepository
-                                    .GetByUserIdOnlyPhotosAsync(userId)
+                                    .GetByUserIdOnlyPhotosAsync(usuarioId)
                                     .ConfigureAwait(false);
             return fotos;
         }
