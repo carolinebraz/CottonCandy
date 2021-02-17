@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CottonCandy.Domain.Entities
+﻿namespace CottonCandy.Domain.Entities
 {
     public class Genero
     {
@@ -9,7 +7,8 @@ namespace CottonCandy.Domain.Entities
             Descricao = descricao;
         }
 
-        public Genero(int id, string descricao)
+        public Genero(int id,
+                      string descricao)
         {
             Id = id;
             Descricao = descricao;
@@ -20,7 +19,7 @@ namespace CottonCandy.Domain.Entities
         public bool EhValido()
         {
             bool valido = true;
-            if(string.IsNullOrEmpty(Descricao))
+            if (string.IsNullOrEmpty(Descricao))
             {
                 valido = false;
             }

@@ -1,10 +1,7 @@
 ﻿using CottonCandy.Application.AppPostagem.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CottonCandy.API.Controllers
@@ -26,8 +23,9 @@ namespace CottonCandy.API.Controllers
         {
             try
             {
-                var fotos = await _albumFotosAppService.GetByUserIdOnlyPhotoAsync(id)
-                                        .ConfigureAwait(false);
+                var fotos = await _albumFotosAppService
+                                       .GetByUserIdOnlyPhotoAsync(idUsuario)
+                                       .ConfigureAwait(false);
 
                 return Ok(fotos);
             }

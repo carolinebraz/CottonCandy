@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CottonCandy.Application.AppUsuario.Input
+﻿namespace CottonCandy.Application.AppUsuario.Input
 {
     public class LoginInput
     {

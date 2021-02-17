@@ -3,8 +3,6 @@ using CottonCandy.Application.AppPostagem.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CottonCandy.API.Controllers
@@ -58,7 +56,6 @@ namespace CottonCandy.API.Controllers
             return Ok(postagem);
         }
 
-       
         [Authorize]
         [HttpPost]
         [Route("{idPostagem}/Curtidas")]
@@ -96,8 +93,6 @@ namespace CottonCandy.API.Controllers
                 return BadRequest(arg.Message);
             }
         }
-
-
 
         [Authorize]
         [HttpPost]
@@ -149,6 +144,5 @@ namespace CottonCandy.API.Controllers
             return Ok(perfil);
 
         }
-
     }
 }

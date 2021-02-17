@@ -4,7 +4,6 @@ using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppPostagem
@@ -36,16 +35,17 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<List<Curtidas>> GetByPostagemIdAsync(int postagemId)
         {
-            return await _curtidasRepository.GetByPostagemIdAsync(postagemId)
+            return await _curtidasRepository
+                            .GetByPostagemIdAsync(postagemId)
                             .ConfigureAwait(false);
         }
 
         public async Task<List<Curtidas>> GetByUsuarioIdAsync(int usuarioId)
         {
-            return await _curtidasRepository.GetByUsuarioIdAsync(usuarioId)
+            return await _curtidasRepository
+                            .GetByUsuarioIdAsync(usuarioId)
                             .ConfigureAwait(false);
         }
-
 
         public async Task<int> InsertAsync(int postagemId)
         {
@@ -54,21 +54,24 @@ namespace CottonCandy.Application.AppPostagem
             var usuarioId = _logado.GetUsuarioLogadoId();
 
             var curtida = await _curtidasRepository
-                                                .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)
-                                                .ConfigureAwait(false);
+                                    .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)
+                                    .ConfigureAwait(false);
 
-            var usuarioPostagemId = await _postagemRepository.GetUsuarioIdByPostagemId(postagemId);
+            var usuarioPostagemId = await _postagemRepository
+                                             .GetUsuarioIdByPostagemId(postagemId);
 
-            var amigosId = await _amigosRepository.
-                                   GetListaAmigos(usuarioId)
-                                 .ConfigureAwait(false);
+            var amigosId = await _amigosRepository
+                                    .GetListaAmigos(usuarioId)
+                                    .ConfigureAwait(false);
 
             if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
             {
                 if (curtida != null)
                 {
-                    await _curtidasRepository.DeleteAsync(curtida.Id)
-                                             .ConfigureAwait(false);
+                    await _curtidasRepository
+                             .DeleteAsync(curtida.Id)
+                             .ConfigureAwait(false);
+
                     return default;
                 }
                 else
@@ -77,10 +80,11 @@ namespace CottonCandy.Application.AppPostagem
                     //Validar os dados obriatorios..
 
                     return await _curtidasRepository
-                              .InsertAsync(novaCurtida)
-                              .ConfigureAwait(false);
+                                    .InsertAsync(novaCurtida)
+                                    .ConfigureAwait(false);
                 }
-            } else
+            }
+            else
             {
                 throw new Exception("Você não pode curtir essa publicação, porque você não segue este usuário");
             }

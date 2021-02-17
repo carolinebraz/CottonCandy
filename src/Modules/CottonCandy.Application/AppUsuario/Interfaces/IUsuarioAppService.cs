@@ -1,17 +1,13 @@
-﻿using CottonCandy.Application.AppUser.Output;
+﻿using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Application.AppUsuario.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CottonCandy.Application.AppUser.Interfaces
+namespace CottonCandy.Application.AppUsuario.Interfaces
 {
     public interface IUsuarioAppService
     {
         Task<UsuarioViewModel> InsertAsync(UsuarioInput input);
         Task<UsuarioViewModel> GetByIdAsync(int id);
         Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id);
-
     }
 }

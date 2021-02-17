@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CottonCandy.API.Controllers
@@ -25,7 +23,7 @@ namespace CottonCandy.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost] 
+        [HttpPost]
         [ProducesResponseType(typeof(string), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -34,8 +32,8 @@ namespace CottonCandy.API.Controllers
             try
             {
                 var logado = await _loginAppService
-                                    .LoginAsync(input.Email, input.Senha) //informações do LoginInput
-                                    .ConfigureAwait(false);
+                                        .LoginAsync(input.Email, input.Senha) //informações do LoginInput
+                                        .ConfigureAwait(false);
 
                 if (logado != null) // caso esteja usuario  e senha ok
                 {

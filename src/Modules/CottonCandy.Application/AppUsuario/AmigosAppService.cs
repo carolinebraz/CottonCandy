@@ -4,9 +4,6 @@ using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppUsuario
@@ -27,9 +24,9 @@ namespace CottonCandy.Application.AppUsuario
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
-            var amigos = await _amigosRepository.
-                                                GetListaAmigos(idSeguidor)
-                                              .ConfigureAwait(false);
+            var amigos = await _amigosRepository
+                                    .GetListaAmigos(idSeguidor)
+                                    .ConfigureAwait(false);
             return amigos;
 
         }
@@ -38,26 +35,22 @@ namespace CottonCandy.Application.AppUsuario
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
-            var idAmigos = await _amigosRepository.
-                                    GetListaAmigos(idSeguidor)
-                                  .ConfigureAwait(false);
+            var idAmigos = await _amigosRepository
+                                      .GetListaAmigos(idSeguidor)
+                                      .ConfigureAwait(false);
 
-        
-             if (idAmigos.Contains(idSeguido))
-                {
-                    throw new Exception("Você já segue esse usuário");
-                }
+            if (idAmigos.Contains(idSeguido))
+            {
+                throw new Exception("Você já segue esse usuário");
+            }
 
             var novoAmigo = new Amigos(idSeguidor, idSeguido);
 
-                int idRelacionamento = await _amigosRepository
-                             .SeguirAsync(novoAmigo)
-                             .ConfigureAwait(false);
+            int idRelacionamento = await _amigosRepository
+                                              .SeguirAsync(novoAmigo)
+                                              .ConfigureAwait(false);
 
-
-                return idRelacionamento;
-            }
+            return idRelacionamento;
         }
-
-    
+    }
 }

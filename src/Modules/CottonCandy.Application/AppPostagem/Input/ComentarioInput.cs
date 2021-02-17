@@ -1,5 +1,4 @@
-﻿using System;
-namespace CottonCandy.Application.AppPostagem.Input
+﻿namespace CottonCandy.Application.AppPostagem.Input
 {
     public class ComentarioInput
     {

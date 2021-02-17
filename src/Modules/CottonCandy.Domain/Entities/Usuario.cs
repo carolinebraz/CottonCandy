@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CottonCandy.Domain.Core;
 
 namespace CottonCandy.Domain.Entities
@@ -8,14 +7,14 @@ namespace CottonCandy.Domain.Entities
     public class Usuario
     {
         public Usuario(string nome,
-                        string email,
-                        string senha,
-                        DateTime dataNascimento, 
-                        Genero genero, 
-                        string fotoPerfil, 
-                        string cargo, 
-                        string cidade,
-                        string fotoCapa)
+                       string email,
+                       string senha,
+                       DateTime dataNascimento,
+                       Genero genero,
+                       string fotoPerfil,
+                       string cargo,
+                       string cidade,
+                       string fotoCapa)
         {
             Nome = nome;
             Email = email;
@@ -27,10 +26,10 @@ namespace CottonCandy.Domain.Entities
             Cidade = cidade;
             FotoCapa = fotoCapa;
             Amigos = new List<Usuario>();
-
         }
 
-        public Usuario(String nome, String fotoPerfil)
+        public Usuario(string nome,
+                       string fotoPerfil)
         {
             Nome = nome;
             FotoPerfil = fotoPerfil;
@@ -55,7 +54,7 @@ namespace CottonCandy.Domain.Entities
                 string.IsNullOrEmpty(Email) ||
                 string.IsNullOrEmpty(Senha) ||
                 DataNascimento.ToShortDateString() == "01/01/0001" ||
-                Genero.Id <= 0 )
+                Genero.Id <= 0)
             {
                 valido = false;
             }

@@ -1,6 +1,6 @@
-﻿using CottonCandy.Application.AppUser.Interfaces;
-using CottonCandy.Application.AppUser.Output;
+﻿using CottonCandy.Application.AppUsuario.Interfaces;
 using CottonCandy.Application.AppUsuario.Input;
+using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
@@ -29,8 +29,8 @@ namespace CottonCandy.Application.AppUsuario
         public async Task<UsuarioViewModel> GetByIdAsync(int id)
         {
             var usuario = await _usuarioRepository
-                                .GetByIdAsync(id)
-                                .ConfigureAwait(false);
+                                    .GetByIdAsync(id)
+                                    .ConfigureAwait(false);
 
             if (usuario is null)
                 return default;
@@ -61,14 +61,14 @@ namespace CottonCandy.Application.AppUsuario
             }
 
             var usuario = new Usuario(input.Nome,
-                                        input.Email,
-                                        input.Senha,
-                                        input.DataNascimento,
-                                        new Genero(genero.Id, genero.Descricao),
-                                        input.FotoPerfil,
-                                        input.Cargo,
-                                        input.Cidade,
-                                        input.FotoCapa);
+                                      input.Email,
+                                      input.Senha,
+                                      input.DataNascimento,
+                                      new Genero(genero.Id, genero.Descricao),
+                                      input.FotoPerfil,
+                                      input.Cargo,
+                                      input.Cidade,
+                                      input.FotoCapa);
 
             if (!usuario.EhValido())
             {
@@ -96,12 +96,12 @@ namespace CottonCandy.Application.AppUsuario
         public async Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id)
         {
             var infos = await _usuarioRepository
-                                .ObterInformacoesPorIdAsync(id)
-                                .ConfigureAwait(false);
+                                   .ObterInformacoesPorIdAsync(id)
+                                   .ConfigureAwait(false);
 
             var postagens = await _postagemRepository
-                                .ObterInformacoesPorIdAsync(id)
-                                .ConfigureAwait(false);
+                                        .ObterInformacoesPorIdAsync(id)
+                                        .ConfigureAwait(false);
 
             if (infos is null)
                 return default;
@@ -123,9 +123,5 @@ namespace CottonCandy.Application.AppUsuario
                 Postagens = postagens
             };
         }
-
-       
-
-
     }
 }

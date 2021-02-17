@@ -3,11 +3,9 @@ namespace CottonCandy.Domain.Entities
 {
     public class Comentario
     {
-        
-
         public Comentario(int idPostagem,
-                         int idUsuario,
-                         string texto)
+                          int idUsuario,
+                          string texto)
         {
             IdPostagem = idPostagem;
             IdUsuario = idUsuario;
@@ -16,10 +14,10 @@ namespace CottonCandy.Domain.Entities
         }
 
         public Comentario(int id,
-                      int idPostagem,
-                      int idUsuario,
-                      string texto,
-                      DateTime dataCriacao)
+                          int idPostagem,
+                          int idUsuario,
+                          string texto,
+                          DateTime dataCriacao)
         {
             Id = id;
             IdPostagem = idPostagem;
@@ -27,8 +25,6 @@ namespace CottonCandy.Domain.Entities
             Texto = texto;
             DataCriacao = dataCriacao;
         }
-
-
 
         public int Id { get; private set; }
         public int IdPostagem { get; private set; }
@@ -40,8 +36,5 @@ namespace CottonCandy.Domain.Entities
         {
             Id = id;
         }
-
-
-
     }
 }
