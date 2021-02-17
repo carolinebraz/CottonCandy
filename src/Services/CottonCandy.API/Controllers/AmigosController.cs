@@ -19,7 +19,7 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("seguir/{idSeguido}")]
+        [Route("{idSeguido}")]
         public async Task<IActionResult> SeguirUsuario([FromRoute] int idSeguido)
         {
             try
@@ -30,7 +30,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", idRelacionamento);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -38,7 +38,6 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("amigos")]
         public async Task<IActionResult> Get()
         {
             var amigos = await _amigosAppService

@@ -36,7 +36,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", postagem);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -69,7 +69,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", "");
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -88,7 +88,7 @@ namespace CottonCandy.API.Controllers
 
                 return Ok(quantity);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -107,7 +107,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", user);  //traduzir?
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }

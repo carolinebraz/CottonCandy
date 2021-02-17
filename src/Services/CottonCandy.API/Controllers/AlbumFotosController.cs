@@ -18,8 +18,8 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("{id}/AlbumFotos")]
-        public async Task<IActionResult> GetFotos([FromRoute] int id)
+        [Route("{idUsuario}")]
+        public async Task<IActionResult> GetFotos([FromRoute] int idUsuario)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace CottonCandy.API.Controllers
 
                 return Ok(fotos);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }

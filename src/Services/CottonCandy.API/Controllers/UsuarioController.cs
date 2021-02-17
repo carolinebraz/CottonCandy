@@ -54,7 +54,7 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("perfil/{id}")]
+        [Route("{id}/Perfil")]
         public async Task<IActionResult> GetUsuarioPerfil([FromRoute] int id)
         {
             var perfil = await _usuarioAppService
