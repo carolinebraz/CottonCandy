@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CottonCandy.Repositories
 {
@@ -14,7 +12,6 @@ namespace CottonCandy.Repositories
     {
         private readonly IConfiguration _configuration;
 
- 
         public UsuarioRepository(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -25,28 +22,31 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var SqlCmd = @$"SELECT u.Id,
-                                      u.Nome,
-                                      u.Email,
-                                      u.Senha,
-                                      u.DataNascimento,
-                                      u.FotoPerfil,
-                                      u.Cargo,
-                                      u.Cidade,
-                                      u.FotoCapa,
-                                      g.Id as GeneroId,
-                                      g.Descricao
-                                FROM
-                                      Usuario u
-                                INNER JOIN
-                                      Genero g ON g.Id = u.GeneroId
-                                WHERE
+                                       u.Nome,
+                                       u.Email,
+                                       u.Senha,
+                                       u.DataNascimento,
+                                       u.FotoPerfil,
+                                       u.Cargo,
+                                       u.Cidade,
+                                       u.FotoCapa,
+                                       g.Id as GeneroId,
+                                       g.Descricao
+                                  FROM
+                                       Usuario u
+                                  INNER JOIN
+                                       Genero g ON g.Id = u.GeneroId
+                                  WHERE
                                        u.Id= '{id}'";
+
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
 
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
 
                     while (reader.Read())
                     {
@@ -68,54 +68,59 @@ namespace CottonCandy.Repositories
 
                     return default;
                 }
-
             }
         }
 
         public async Task<Usuario> GetByLoginAsync(string login)
         {
-            using(var con = new SqlConnection(_configuration["ConnectionString"]))
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var SqlCmd = @$"SELECT u.Id,
-                                      u.Nome,
-                                      u.Email,
-                                      u.Senha,
-                                      u.DataNascimento,
-                                      u.FotoPerfil,
-                                      u.Cargo,
-                                      u.Cidade,
-                                      u.FotoCapa,
-                                      g.Id as GeneroId,
-                                      g.Descricao
-                                FROM
-                                      Usuario u
-                                INNER JOIN
-                                      Genero g ON g.Id = u.GeneroId
-                                WHERE
+                                       u.Nome,
+                                       u.Email,
+                                       u.Senha,
+                                       u.DataNascimento,
+                                       u.FotoPerfil,
+                                       u.Cargo,
+                                       u.Cidade,
+                                       u.FotoCapa,
+                                       g.Id as GeneroId,
+                                       g.Descricao
+                                  FROM
+                                       Usuario u
+                                  INNER JOIN
+                                       Genero g ON g.Id = u.GeneroId
+                                  WHERE
                                        u.Email= '{login}'";
+
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
 
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
 
-                    while(reader.Read())
+                    while (reader.Read())
                     {
-                        var usuario = new Usuario (reader["Nome"].ToString(),
-                                                  reader["Email"].ToString(),
-                                                  reader["Senha"].ToString(),
-                                                  DateTime.Parse(reader["DataNascimento"].ToString()),
-                                                  new Genero(reader["Descricao"].ToString()),
-                                                  reader["FotoPerfil"].ToString(),
-                                                  reader["Cargo"].ToString(),
-                                                  reader["Cidade"].ToString(),
-                                                  reader["FotoCapa"].ToString());
+                        var usuario = new Usuario(reader["Nome"].ToString(),
+                                                   reader["Email"].ToString(),
+                                                   reader["Senha"].ToString(),
+                                                   DateTime.Parse(reader["DataNascimento"].ToString()),
+                                                   new Genero(reader["Descricao"].ToString()),
+                                                   reader["FotoPerfil"].ToString(),
+                                                   reader["Cargo"].ToString(),
+                                                   reader["Cidade"].ToString(),
+                                                   reader["FotoCapa"].ToString());
 
-                        usuario.InformacaoLoginUsuario(reader["Email"].ToString(), reader["Senha"].ToString());
+                        usuario.InformacaoLoginUsuario(reader["Email"].ToString(),
+                                                       reader["Senha"].ToString());
+
                         usuario.SetId(int.Parse(reader["Id"].ToString()));
+
                         usuario.Genero.SetId(int.Parse(reader["GeneroId"].ToString()));
-                        
+
                         return usuario;
                     }
 
@@ -129,7 +134,7 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var sqlCmd = @"INSERT INTO
-                                 Usuario (GeneroId,
+                                   Usuario (GeneroId,
                                             Nome,
                                             Email,
                                             Senha,
@@ -138,17 +143,17 @@ namespace CottonCandy.Repositories
                                             Cargo,
                                             Cidade,
                                             FotoCapa)
-                                VALUES (@generoId,
-                                        @nome,
-                                        @email,
-                                        @senha,
-                                        @dataNascimento,
-                                        @fotoPerfil,
-                                        @cargo,
-                                        @cidade,
-                                        @fotoCapa); SELECT scope_identity();";
+                                    VALUES (@generoId,
+                                            @nome,
+                                            @email,
+                                            @senha,
+                                            @dataNascimento,
+                                            @fotoPerfil,
+                                            @cargo,
+                                            @cidade,
+                                            @fotoCapa); SELECT scope_identity();";
 
-                using(var cmd = new SqlCommand(sqlCmd, con))
+                using (var cmd = new SqlCommand(sqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("generoId", usuario.Genero.Id);
@@ -162,11 +167,11 @@ namespace CottonCandy.Repositories
                     cmd.Parameters.AddWithValue("fotoCapa", usuario.FotoCapa);
 
                     con.Open();
-                    var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
+                    var id = await cmd
+                                    .ExecuteScalarAsync()
+                                    .ConfigureAwait(false);
 
                     return int.Parse(id.ToString());
-
-
                 }
             }
         }
@@ -176,28 +181,31 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var SqlCmd = @$"SELECT u.Id,
-                                      u.Nome,
-                                      u.Email,
-                                      u.Senha,
-                                      u.DataNascimento,
-                                      u.FotoPerfil,
-                                      u.Cargo,
-                                      u.Cidade,
-                                      u.FotoCapa,
-                                      g.Id as GeneroId,
-                                      g.Descricao
-                                FROM
-                                      Usuario u
-                                INNER JOIN
-                                      Genero g ON g.Id = u.GeneroId
-                                WHERE
+                                       u.Nome,
+                                       u.Email,
+                                       u.Senha,
+                                       u.DataNascimento,
+                                       u.FotoPerfil,
+                                       u.Cargo,
+                                       u.Cidade,
+                                       u.FotoCapa,
+                                       g.Id as GeneroId,
+                                       g.Descricao
+                                  FROM
+                                       Usuario u
+                                  INNER JOIN
+                                       Genero g ON g.Id = u.GeneroId
+                                  WHERE
                                        u.Id= '{id}'";
+
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
 
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
 
                     while (reader.Read())
                     {
@@ -221,40 +229,38 @@ namespace CottonCandy.Repositories
                 }
             }
         }
-
-            public async Task<Usuario> GetNomeFotoByIdUsuarioAsync(int idUsuario)
+        public async Task<Usuario> GetNomeFotoByIdUsuarioAsync(int idUsuario)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                using (var con = new SqlConnection(_configuration["ConnectionString"]))
+                var SqlCmd = @$"SELECT 
+                                     u.Nome,
+                                     u.FotoPerfil
+                                  FROM
+                                     Usuario u
+                                  WHERE
+                                     u.Id= '{idUsuario}'";
+
+                using (var cmd = new SqlCommand(SqlCmd, con))
                 {
-                    var SqlCmd = @$"SELECT 
-                                      u.Nome,
-                                      u.FotoPerfil
-                                FROM
-                                      Usuario u
-                                WHERE
-                                       u.Id= '{idUsuario}'";
-                    using (var cmd = new SqlCommand(SqlCmd, con))
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
+
+                    while (reader.Read())
                     {
-                        cmd.CommandType = CommandType.Text;
-                        con.Open();
-
-                        var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
-
-                        while (reader.Read())
-                        {
                         var usuario = new Usuario(reader["Nome"].ToString(),
                                                   reader["FotoPerfil"].ToString());
-                                                  
 
-                            return usuario;
-                        }
-
-                        return default;
+                        return usuario;
                     }
+
+                    return default;
                 }
             }
-
-
-    
+        }
     }
 }

@@ -9,21 +9,15 @@ using CottonCandy.Domain.Interfaces;
 
 namespace CottonCandy.Application.AppPostagem
 {
-
-   
-
-
     public class ComentarioAppService : IComentarioAppService
     {
-
         private readonly IComentarioRepository _comentarioRepository;
         private readonly IAmigosRepository _amigosRepository;
         private readonly IPostagemRepository _postagemRepository;
         private readonly ILogado _logado;
 
-
-        public ComentarioAppService(IComentarioRepository comentarioRepositorio, 
-                                    IAmigosRepository amigosRepository, 
+        public ComentarioAppService(IComentarioRepository comentarioRepositorio,
+                                    IAmigosRepository amigosRepository,
                                     ILogado logado,
                                     IPostagemRepository postagemRepository)
         {
@@ -33,15 +27,11 @@ namespace CottonCandy.Application.AppPostagem
             _logado = logado;
         }
 
-
-
-      
-
         public async Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem)
         {
             var comentarios = await _comentarioRepository
-                                     .PegarComentariosPorIdPostagemAsync(idPostagem)
-                                     .ConfigureAwait(false);
+                                        .PegarComentariosPorIdPostagemAsync(idPostagem)
+                                        .ConfigureAwait(false);
 
             return comentarios;
         }
@@ -50,11 +40,12 @@ namespace CottonCandy.Application.AppPostagem
         {
             var usuarioId = _logado.GetUsuarioLogadoId();
 
-            var usuarioPostagemId = await _postagemRepository.GetUsuarioIdByPostagemId(idPostagem);
+            var usuarioPostagemId = await _postagemRepository
+                                                .GetUsuarioIdByPostagemId(idPostagem);
 
-            var amigosId = await _amigosRepository.
-                                   GetListaAmigos(usuarioId)
-                                 .ConfigureAwait(false);
+            var amigosId = await _amigosRepository
+                                    .GetListaAmigos(usuarioId)
+                                    .ConfigureAwait(false);
 
 
             if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
@@ -70,7 +61,6 @@ namespace CottonCandy.Application.AppPostagem
                 comentario.SetId(id);
 
                 return comentario;
-
             }
             else
             {

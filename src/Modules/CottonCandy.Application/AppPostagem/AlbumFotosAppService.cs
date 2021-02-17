@@ -1,9 +1,7 @@
 ﻿using CottonCandy.Application.AppPostagem.Interfaces;
-using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppPostagem
@@ -23,7 +21,8 @@ namespace CottonCandy.Application.AppPostagem
         {
             //var userId = 1; //_logged.GetUserLoggedId();
 
-            var fotos = await _postagemRepository.GetByUserIdOnlyPhotosAsync(userId)
+            var fotos = await _postagemRepository
+                                    .GetByUserIdOnlyPhotosAsync(userId)
                                     .ConfigureAwait(false);
             return fotos;
         }

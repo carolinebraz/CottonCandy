@@ -1,9 +1,8 @@
 ﻿using CottonCandy.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CottonCandy.Application.AppUser.Output
+namespace CottonCandy.Application.AppUsuario.Output
 {
     public class PerfilUsuarioViewModel
     {

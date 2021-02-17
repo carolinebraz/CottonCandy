@@ -1,18 +1,15 @@
 ﻿using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Repositories
 {
     public class CurtidasRepository : ICurtidasRepository
     {
-
         private readonly IConfiguration _configuration;
 
         public CurtidasRepository(IConfiguration configuration)
@@ -27,9 +24,9 @@ namespace CottonCandy.Repositories
                                        PostagemId,
                                        UsuarioId
                                 FROM 
-	                                Curtidas
+	                                   Curtidas
                                 WHERE 
-	                                UsuarioId= '{usuarioId}'";
+	                                   UsuarioId= '{usuarioId}'";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -47,7 +44,6 @@ namespace CottonCandy.Repositories
                         var curtidas = new Curtidas(int.Parse(reader["UsuarioId"].ToString()),
                                                     int.Parse(reader["PostagemId"].ToString()));
 
-
                         curtidasUsuario.Add(curtidas);
                     }
 
@@ -63,10 +59,10 @@ namespace CottonCandy.Repositories
                 var sqlCmd = @$"SELECT Id,
                                        PostagemId,
                                        UsuarioId
-                                FROM 
-	                                Curtidas
-                                WHERE 
-	                                PostagemId= '{postagemId}'";
+                                  FROM 
+	                                   Curtidas
+                                  WHERE 
+	                                   PostagemId= '{postagemId}'";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -84,7 +80,6 @@ namespace CottonCandy.Repositories
                         var curtidas = new Curtidas(int.Parse(reader["UsuarioId"].ToString()),
                                                     int.Parse(reader["PostagemId"].ToString()));
 
-
                         curtidasPostagem.Add(curtidas);
                     }
 
@@ -100,12 +95,12 @@ namespace CottonCandy.Repositories
                 var sqlCmd = @$"SELECT Id,
 	                                   UsuarioId,
                                        PostagemId
-                                FROM 
-	                                Curtidas
-                                WHERE 
-	                                UsuarioId= '{usuarioId}'
-                                AND 
-                                    PostagemId= '{postagemId}'";
+                                  FROM 
+	                                   Curtidas
+                                  WHERE 
+	                                   UsuarioId= '{usuarioId}'
+                                  AND 
+                                       PostagemId= '{postagemId}'";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -164,10 +159,10 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var sqlCmd = @"INSERT INTO
-                                 Curtidas (PostagemId,
-                                            UsuarioId)
-                                VALUES (@postagemId,
-                                        @usuarioId); SELECT scope_identity();";
+                                    Curtidas (PostagemId,
+                                              UsuarioId)
+                                    VALUES (@postagemId,
+                                            @usuarioId); SELECT scope_identity();";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -179,8 +174,6 @@ namespace CottonCandy.Repositories
                     var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
 
                     return int.Parse(id.ToString());
-
-
                 }
             }
         }
@@ -188,11 +181,10 @@ namespace CottonCandy.Repositories
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var sqlCmd = $@"DELETE 
-                                FROM
-                                Curtidas
-                               WHERE 
-                                Id={id}";
+                var sqlCmd = $@"DELETE FROM
+                                   Curtidas
+                                WHERE 
+                                   Id={id}";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -203,6 +195,5 @@ namespace CottonCandy.Repositories
                 }
             }
         }
-    } 
-
+    }
 }

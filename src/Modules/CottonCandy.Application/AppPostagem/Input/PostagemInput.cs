@@ -1,9 +1,4 @@
-﻿using CottonCandy.Application.AppUser.Output;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CottonCandy.Application.AppPostagem.Input
+﻿namespace CottonCandy.Application.AppPostagem.Input
 {
     public class PostagemInput
     {

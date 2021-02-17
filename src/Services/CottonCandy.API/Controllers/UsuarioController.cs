@@ -1,13 +1,8 @@
-﻿
-using CottonCandy.Application.AppUser.Interfaces;
-using CottonCandy.Application.AppUsuario.Input;
+﻿using CottonCandy.Application.AppUsuario.Input;
 using CottonCandy.Application.AppUsuario.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CottonCandy.API.Controllers
@@ -27,16 +22,18 @@ namespace CottonCandy.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UsuarioInput usuarioInput)
         {
-            try {
-                var usuario = await _usuarioAppService.InsertAsync(usuarioInput).ConfigureAwait(false);
+            try
+            {
+                var usuario = await _usuarioAppService
+                                        .InsertAsync(usuarioInput)
+                                        .ConfigureAwait(false);
 
                 return Created("", usuario);
             }
-            catch(ArgumentException arg)
+            catch (ArgumentException arg)
             {
                 return BadRequest(arg.Message);
             }
-  
         }
 
         [Authorize]
@@ -45,32 +42,30 @@ namespace CottonCandy.API.Controllers
         public async Task<IActionResult> Get([FromRoute] int id)
         {
             var usuario = await _usuarioAppService
-                                .GetByIdAsync(id)
-                                 //Método Get para usuários e postagens
-                                .ConfigureAwait(false);
+                                    .GetByIdAsync(id)
+                                    //Método Get para usuários e postagens
+                                    .ConfigureAwait(false);
 
             if (usuario is null)
                 return NotFound();
 
             return Ok(usuario);
-
         }
 
         [Authorize]
         [HttpGet]
-        [Route("perfil/{id}")]
+        [Route("{id}/Perfil")]
         public async Task<IActionResult> GetUsuarioPerfil([FromRoute] int id)
         {
             var perfil = await _usuarioAppService
-                                .ObterInformacoesPorIdAsync(id)
-                                //Método Get para usuários e postagens
-                                .ConfigureAwait(false);
+                                    .ObterInformacoesPorIdAsync(id)
+                                    //Método Get para usuários e postagens
+                                    .ConfigureAwait(false);
 
             if (perfil is null)
                 return NotFound();
 
             return Ok(perfil);
-
         }
     }
 }

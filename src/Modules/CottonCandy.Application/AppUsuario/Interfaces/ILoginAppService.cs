@@ -1,7 +1,4 @@
-﻿using CottonCandy.Application.AppUser.Output;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CottonCandy.Application.AppUsuario.Output;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppUsuario.Interfaces

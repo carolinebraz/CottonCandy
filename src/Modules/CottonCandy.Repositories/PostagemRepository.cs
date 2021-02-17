@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Repositories
@@ -14,7 +12,6 @@ namespace CottonCandy.Repositories
     public class PostagemRepository : IPostagemRepository
     {
         private readonly IConfiguration _configuration;
-
         public PostagemRepository(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -28,11 +25,10 @@ namespace CottonCandy.Repositories
                                        DataPostagem,
                                        FotoPost,
                                        UsuarioId
-
-                                FROM 
-	                                Postagem
-                                WHERE 
-	                                UsuarioId= '{usuarioId}'";
+                                  FROM 
+	                                   Postagem
+                                  WHERE 
+	                                   UsuarioId= '{usuarioId}'";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -67,7 +63,7 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var sqlCmd = @$"SELECT 
-                                       UsuarioId
+                                    UsuarioId
                                 FROM 
 	                                Postagem
                                 WHERE 
@@ -89,7 +85,6 @@ namespace CottonCandy.Repositories
                     while (reader.Read())
                     {
                         id = int.Parse(reader["UsuarioId"].ToString());
-                       
                     }
 
                     return id;
@@ -102,14 +97,14 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var sqlCmd = @"INSERT INTO
-                                 Postagem (Texto,
-                                            DataPostagem,
-                                            FotoPost,
-                                            UsuarioId)
-                                VALUES (@texto,
-                                        @dataPostagem,
-                                        @fotoPost,
-                                        @usuarioId); SELECT scope_identity();";
+                                      Postagem (Texto,
+                                                DataPostagem,
+                                                FotoPost,
+                                                UsuarioId)
+                                      VALUES (@texto,
+                                              @dataPostagem,
+                                              @fotoPost,
+                                              @usuarioId); SELECT scope_identity();";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -123,13 +118,11 @@ namespace CottonCandy.Repositories
                     var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
 
                     return int.Parse(id.ToString());
-
-
                 }
             }
         }
 
-        public async Task<List<String>> GetByUserIdOnlyPhotosAsync(int usuarioId)
+        public async Task<List<string>> GetByUserIdOnlyPhotosAsync(int usuarioId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -152,12 +145,11 @@ namespace CottonCandy.Repositories
                                         .ExecuteReaderAsync()
                                         .ConfigureAwait(false);
 
-                    var fotosUsuario = new List<String>();
+                    var fotosUsuario = new List<string>();
 
                     while (reader.Read())
                     {
                         var foto = reader["FotoPost"].ToString();
-
 
                         fotosUsuario.Add(foto);
                     }
@@ -171,58 +163,53 @@ namespace CottonCandy.Repositories
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT 
-	                                        P.Id,
-                                            P.Texto,
-                                            P.DataPostagem,
-                                            P.FotoPost,
-                                            P.UsuarioId,
-	                                        U.Nome,
-                                            U.FotoPerfil
-                                        FROM 
-	                                        Postagem P
-                                        INNER JOIN 
-	                                        Amigos A ON A.IdSeguido = P.UsuarioId
-                                        INNER JOIN 
-	                                        Usuario U ON U.Id = A.IdSeguido 
-                                        WHERE
-	                                        A.IdSeguidor = '{idUsuarioLogado}'";
-
+                var SqlCmd = @$"SELECT P.Id,
+                                       P.Texto,
+                                       P.DataPostagem,
+                                       P.FotoPost,
+                                       P.UsuarioId,
+	                                   U.Nome,
+                                       U.FotoPerfil
+                                  FROM 
+	                                   Postagem P
+                                  INNER JOIN 
+	                                   Amigos A ON A.IdSeguido = P.UsuarioId
+                                  INNER JOIN 
+	                                   Usuario U ON U.Id = A.IdSeguido 
+                                  WHERE
+	                                   A.IdSeguidor = '{idUsuarioLogado}'";
 
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
 
-                    var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false);
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
 
                     List<Postagem> listaPostagensDosAmigos = new List<Postagem>();
 
                     while (reader.Read())
                     {
                         var postagem = new Postagem(reader["Texto"].ToString(),
-                                                     reader["FotoPost"].ToString(),
-                                                     int.Parse(reader["UsuarioId"].ToString()),
-                                                       DateTime.Parse(reader["DataPostagem"].ToString()));
+                                                    reader["FotoPost"].ToString(),
+                                                    int.Parse(reader["UsuarioId"].ToString()),
+                                                    DateTime.Parse(reader["DataPostagem"].ToString()));
 
                         postagem.SetId(int.Parse(reader["Id"].ToString()));
 
-
                         listaPostagensDosAmigos.Add(postagem);
-                    } 
+                    }
 
                     //adicionar postagens do usuario
 
-
-                   /* List<Postagem> ListaOrdenadaDePostagens =
-                        listaPostagensDosAmigos.OrderBy(o => o.DataPostagem).ToList();*/
-
+                    /* List<Postagem> ListaOrdenadaDePostagens =
+                         listaPostagensDosAmigos.OrderBy(o => o.DataPostagem).ToList();*/
 
                     return listaPostagensDosAmigos;
                 }
-
             }
         }
     }
-    
 }

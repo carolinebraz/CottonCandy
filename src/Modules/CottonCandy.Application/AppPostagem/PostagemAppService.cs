@@ -4,10 +4,8 @@ using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppPostagem
@@ -30,8 +28,9 @@ namespace CottonCandy.Application.AppPostagem
         {
             var usuarioId = _logado.GetUsuarioLogadoId();
 
-            var postagens = await _postagemRepository.ObterInformacoesPorIdAsync(usuarioId)
-                                    .ConfigureAwait(false);
+            var postagens = await _postagemRepository
+                                     .ObterInformacoesPorIdAsync(usuarioId)
+                                     .ConfigureAwait(false);
             return postagens;
         }
 
@@ -44,10 +43,8 @@ namespace CottonCandy.Application.AppPostagem
             //Validar classe com dados obrigatorios..
 
             int id = await _postagemRepository
-                             .InsertAsync(postagem)
-                             .ConfigureAwait(false);
-
-
+                              .InsertAsync(postagem)
+                              .ConfigureAwait(false);
 
             postagem.SetId(id);
 
@@ -60,48 +57,47 @@ namespace CottonCandy.Application.AppPostagem
             var idUsuarioLogado = _logado.GetUsuarioLogadoId();
 
             var postagensDosAmigos = await _postagemRepository
-                                .GetLinhaDoTempoIdAsync(idUsuarioLogado)
-                                .ConfigureAwait(false);
+                                              .GetLinhaDoTempoIdAsync(idUsuarioLogado)
+                                              .ConfigureAwait(false);
 
-            var postagensUsuario = await _postagemRepository.
-                                ObterInformacoesPorIdAsync(idUsuarioLogado).
-                                 ConfigureAwait(false);
+            var postagensUsuario = await _postagemRepository
+                                            .ObterInformacoesPorIdAsync(idUsuarioLogado)
+                                            .ConfigureAwait(false);
 
             List<Postagem> listaTodasPostagens = new List<Postagem>();
 
             listaTodasPostagens.AddRange(postagensDosAmigos);
             listaTodasPostagens.AddRange(postagensUsuario);
 
-
             List<PostagemViewModel> listaPostagens = new List<PostagemViewModel>();
 
             foreach (Postagem postagem in listaTodasPostagens)
             {
-                var usuarioId = await _postagemRepository.
-                                        GetUsuarioIdByPostagemId(postagem.Id).
-                                        ConfigureAwait(false);
+                var usuarioId = await _postagemRepository
+                                         .GetUsuarioIdByPostagemId(postagem.Id)
+                                         .ConfigureAwait(false);
 
-                var usuarioFotoNome = await _usuarioRepository.
-                                                GetNomeFotoByIdUsuarioAsync(usuarioId).
-                                                ConfigureAwait(false);
+                var usuarioFotoNome = await _usuarioRepository
+                                               .GetNomeFotoByIdUsuarioAsync(usuarioId)
+                                               .ConfigureAwait(false);
 
                 listaPostagens.Add(new PostagemViewModel()
-                { Id = postagem.Id,
-                NomeUsuario = usuarioFotoNome.Nome,
-                FotoUsuario = usuarioFotoNome.FotoPerfil,
-                TextoPost = postagem.Texto,
-                FotoPost = postagem.FotoPost,
-                DataPostagem = postagem.DataPostagem
-                } //new postagem viewmodel
-            );
+                {
+                    Id = postagem.Id,
+                    NomeUsuario = usuarioFotoNome.Nome,
+                    FotoUsuario = usuarioFotoNome.FotoPerfil,
+                    TextoPost = postagem.Texto,
+                    FotoPost = postagem.FotoPost,
+                    DataPostagem = postagem.DataPostagem
+                }); //new postagem viewmodel
 
             } //for each
 
-            List<PostagemViewModel> listaOrdenada = listaPostagens.OrderBy(o => o.DataPostagem).ToList();
+            List<PostagemViewModel> listaOrdenada = listaPostagens
+                                                        .OrderBy(o => o.DataPostagem)
+                                                        .ToList();
 
             return listaOrdenada;
-            
-
         }
     }
 }

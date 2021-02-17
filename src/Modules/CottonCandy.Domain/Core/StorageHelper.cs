@@ -53,5 +53,4 @@ namespace CottonCandy.Domain.Core
             return formats.Any(item => nameFile.EndsWith(item, StringComparison.OrdinalIgnoreCase));
         }
     }
-
 }

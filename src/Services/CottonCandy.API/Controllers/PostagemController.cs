@@ -3,8 +3,6 @@ using CottonCandy.Application.AppPostagem.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CottonCandy.API.Controllers
@@ -38,7 +36,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", postagem);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -58,7 +56,6 @@ namespace CottonCandy.API.Controllers
             return Ok(postagem);
         }
 
-       
         [Authorize]
         [HttpPost]
         [Route("{idPostagem}/Curtidas")]
@@ -72,7 +69,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", "");
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -91,13 +88,11 @@ namespace CottonCandy.API.Controllers
 
                 return Ok(quantity);
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
         }
-
-
 
         [Authorize]
         [HttpPost]
@@ -112,7 +107,7 @@ namespace CottonCandy.API.Controllers
 
                 return Created("", user);  //traduzir?
             }
-            catch (ArgumentException arg)
+            catch (Exception arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -149,6 +144,5 @@ namespace CottonCandy.API.Controllers
             return Ok(perfil);
 
         }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,24 +12,22 @@ namespace CottonCandy.Repositories
     {
         private readonly IConfiguration _configuration;
 
-
         public AmigosRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-
         public async Task<int> SeguirAsync(Amigos amigo)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var sqlCmd = @"INSERT INTO
-                                 Amigos (IdSeguidor,
-                                         IdSeguido,
-                                         DataAmizade)
-                                VALUES (@idSeguidor,
-                                        @idSeguido,
-                                        @dataAmizade); SELECT scope_identity();";
+                var sqlCmd = @"INSERT INTO 
+                                      Amigos (IdSeguidor,
+                                              IdSeguido,
+                                              DataAmizade)
+                                      VALUES (@idSeguidor,
+                                              @idSeguido,
+                                              @dataAmizade); SELECT scope_identity();";
 
                 using (var cmd = new SqlCommand(sqlCmd, con))
                 {
@@ -44,7 +41,6 @@ namespace CottonCandy.Repositories
 
                     return int.Parse(id.ToString());
                     //validar 
-
                 }
             }
         }
@@ -54,11 +50,11 @@ namespace CottonCandy.Repositories
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var SqlCmd = @$"SELECT 
-                                       IdSeguido
+                                      IdSeguido
                                 FROM
                                       Amigos
                                 WHERE
-                                       IdSeguidor= '{idUsuarioSeguidor}'";
+                                      IdSeguidor= '{idUsuarioSeguidor}'";
 
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
@@ -71,7 +67,6 @@ namespace CottonCandy.Repositories
 
                     while (reader.Read())
                     {
-            
                         listaIdAmigos.Add(int.Parse(reader["IdSeguido"].ToString()));
                     }
 

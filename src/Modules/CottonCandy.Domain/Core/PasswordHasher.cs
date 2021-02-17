@@ -103,5 +103,4 @@ namespace CottonCandy.Domain.Core
             return true;
         }
     }
-
 }

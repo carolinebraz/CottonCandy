@@ -1,12 +1,9 @@
 using CottonCandy.Repositories.IoC;
-using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,7 +24,7 @@ namespace CottonCandy.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           //services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+            //services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
 
             services.AddControllers();
 
@@ -60,7 +57,7 @@ namespace CottonCandy.API
                     {
                         Title = "CottonCandy",
                         Version = "v1",
-                        Description = "Api CottonCandy",
+                        Description = "API by group 2",
                         Contact = new OpenApiContact
                         {
                             Name = "CottonCandy",
@@ -91,7 +88,8 @@ namespace CottonCandy.API
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CottonCandy");
             });
         }

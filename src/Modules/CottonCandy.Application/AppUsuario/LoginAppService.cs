@@ -1,9 +1,7 @@
-﻿using CottonCandy.Application.AppUser.Output;
+﻿using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Application.AppUsuario.Interfaces;
 using CottonCandy.Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppUsuario
@@ -16,12 +14,11 @@ namespace CottonCandy.Application.AppUsuario
         {
             _usuarioRepository = UsuarioRepository;
         }
-
         public async Task<UsuarioViewModel> LoginAsync(string email, string senha)
         {
             var usuario = await _usuarioRepository
-                                .GetByLoginAsync(email)
-                                .ConfigureAwait(false);
+                                    .GetByLoginAsync(email)
+                                    .ConfigureAwait(false);
 
             if (usuario is null)
             {

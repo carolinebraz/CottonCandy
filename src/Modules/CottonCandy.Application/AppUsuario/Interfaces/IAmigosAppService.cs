@@ -1,7 +1,4 @@
-﻿using CottonCandy.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CottonCandy.Application.AppUsuario.Interfaces
