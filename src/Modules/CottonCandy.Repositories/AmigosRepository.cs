@@ -79,7 +79,7 @@ namespace CottonCandy.Repositories
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT a.IdSeguido, u.Nome
+                var SqlCmd = @$"SELECT a.Id, a.IdSeguido, u.Nome
                                     FROM Amigos a
                                     INNER JOIN
                                     Usuario u ON u.Id = a.IdSeguido
@@ -96,8 +96,10 @@ namespace CottonCandy.Repositories
 
                     while (reader.Read())
                     {
-                        listaAmigos.Add(new Amigos(int.Parse(reader["IdSeguido"].ToString()),
-                                                            reader["Nome"].ToString()));
+                        var amizade = new Amigos(int.Parse(reader["IdSeguido"].ToString()),
+                                                            reader["Nome"].ToString());
+                        amizade.SetId(int.Parse(reader["Id"].ToString()));
+                        listaAmigos.Add(amizade);
                     }
 
                     return listaAmigos;
@@ -105,6 +107,25 @@ namespace CottonCandy.Repositories
             }
 
         }
-    
+
+        public async Task<string> DeixarDeSeguir(Amigos amizade)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var sqlCmd = $@"DELETE FROM
+                                   Amigos
+                                WHERE 
+                                   Id={amizade.Id}";
+
+                using (var cmd = new SqlCommand(sqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    await cmd.ExecuteScalarAsync().ConfigureAwait(false);
+                }
+            }
+            return "Você deixou de seguir " + amizade.NomeAmigo;
+        }
     }
 }

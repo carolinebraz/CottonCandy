@@ -34,12 +34,12 @@ namespace CottonCandy.Application.AppUsuario
 
             List<AmigosViewModel> listaAmigos = new List<AmigosViewModel>();
 
-            foreach(Amigos amigo in amigos)
+            foreach (Amigos amigo in amigos)
             {
                 listaAmigos.Add(new AmigosViewModel()
                 {
-                     IdAmigo = amigo.IdUsuarioSeguido, 
-                     NomeAmigo = amigo.NomeAmigo
+                    IdAmigo = amigo.IdUsuarioSeguido,
+                    NomeAmigo = amigo.NomeAmigo
                 });
             }
 
@@ -51,7 +51,7 @@ namespace CottonCandy.Application.AppUsuario
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
 
-            if(idSeguido == idSeguidor)
+            if (idSeguido == idSeguidor)
             {
                 throw new Exception("Você não pode seguir a si mesmo");
             }
@@ -66,15 +66,29 @@ namespace CottonCandy.Application.AppUsuario
 
             if (idAmigos.Contains(idSeguido))
             {
-                throw new Exception("Você já segue " + usuario.Nome);
+                var amizades = await _amigosRepository
+                                          .GetListaAmigosNomeId(idSeguidor)
+                                          .ConfigureAwait(false);
+
+                foreach (Amigos amizade in amizades)
+                {
+                    if (amizade.IdUsuarioSeguido == idSeguido)
+                    {
+                        string resultadoAmizade = await _amigosRepository
+                                                             .DeixarDeSeguir(amizade)
+                                                             .ConfigureAwait(false);
+                        return "Você deixou de seguir " + amizade.NomeAmigo;
+                    }
+
+                }                              
             }
 
             var novoAmigo = new Amigos(idSeguidor, idSeguido);
 
             int idRelacionamento = await _amigosRepository
-                                              .SeguirAsync(novoAmigo)
-                                              .ConfigureAwait(false);
-            
+                                             .SeguirAsync(novoAmigo)
+                                             .ConfigureAwait(false);
+
             var resultado = "Você está seguindo " + usuario.Nome;
 
             return resultado;
