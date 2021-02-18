@@ -159,7 +159,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<Postagem>> GetLinhaDoTempoIdAsync(int idUsuarioLogado)
+        public async Task<List<Postagem>> GetLinhaDoTempoDosAmigosAsync(int idUsuarioLogado)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -202,12 +202,36 @@ namespace CottonCandy.Repositories
                         listaPostagensDosAmigos.Add(postagem);
                     }
 
-                    //adicionar postagens do usuario
-
-                    /* List<Postagem> ListaOrdenadaDePostagens =
-                         listaPostagensDosAmigos.OrderBy(o => o.DataPostagem).ToList();*/
-
                     return listaPostagensDosAmigos;
+                }
+            }
+        }
+
+        public async Task<List<int>> GetIdPostagensAsync()
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var SqlCmd = @$"SELECT P.Id
+                                  FROM 
+	                                   Postagem P";
+
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
+
+                    List<int> listaIdPostagens = new List<int>();
+
+                    while (reader.Read())
+                    {
+                        listaIdPostagens.Add(int.Parse(reader["Id"].ToString()));
+                    }
+
+                    return listaIdPostagens;
                 }
             }
         }

@@ -43,7 +43,6 @@ namespace CottonCandy.API.Controllers
         {
             var usuario = await _usuarioAppService
                                     .GetByIdAsync(id)
-                                    //Método Get para usuários e postagens
                                     .ConfigureAwait(false);
 
             if (usuario is null)
@@ -59,7 +58,6 @@ namespace CottonCandy.API.Controllers
         {
             var perfil = await _usuarioAppService
                                     .ObterInformacoesPorIdAsync(id)
-                                    //Método Get para usuários e postagens
                                     .ConfigureAwait(false);
 
             if (perfil is null)

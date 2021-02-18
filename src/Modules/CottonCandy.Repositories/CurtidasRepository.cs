@@ -154,7 +154,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<int> InsertAsync(Curtidas curtida)
+        public async Task<string> InsertAsync(Curtidas curtida)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -173,11 +173,11 @@ namespace CottonCandy.Repositories
                     con.Open();
                     var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
 
-                    return int.Parse(id.ToString());
+                    return "Você curtiu a postagem número " + curtida.PostagemId;
                 }
             }
         }
-        public async Task DeleteAsync(int id)
+        public async Task <string> DeleteAsync(int id)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -194,6 +194,8 @@ namespace CottonCandy.Repositories
                     await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 }
             }
+
+            return "Você descurtiu essa postagem";
         }
     }
 }

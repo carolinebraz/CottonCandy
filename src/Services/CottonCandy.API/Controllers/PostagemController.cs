@@ -31,12 +31,12 @@ namespace CottonCandy.API.Controllers
             try
             {
                 var postagem = await _postagemAppService
-                                    .InsertAsync(postagemInput)
-                                    .ConfigureAwait(false);
+                                        .InsertAsync(postagemInput)
+                                        .ConfigureAwait(false);
 
                 return Created("", postagem);
             }
-            catch (Exception arg)
+            catch (ArgumentException arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -63,13 +63,13 @@ namespace CottonCandy.API.Controllers
         {
             try
             {
-                await _curtidasAppService
-                            .InsertAsync(idPostagem)
-                            .ConfigureAwait(false);
+                var curtida = await _curtidasAppService
+                                        .InsertAsync(idPostagem)
+                                        .ConfigureAwait(false);
 
                 return Created("", "");
             }
-            catch (Exception arg)
+            catch (ArgumentException arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -88,7 +88,7 @@ namespace CottonCandy.API.Controllers
 
                 return Ok(quantity);
             }
-            catch (Exception arg)
+            catch (ArgumentException arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -97,7 +97,8 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpPost]
         [Route("{idPostagem}/Comentarios")]
-        public async Task<IActionResult> PostComentarios([FromRoute] int idPostagem, [FromBody] ComentarioInput comentarioInput)
+        public async Task<IActionResult> PostComentarios([FromRoute] int idPostagem, 
+                                                         [FromBody] ComentarioInput comentarioInput)
         {
             try
             {
@@ -105,9 +106,9 @@ namespace CottonCandy.API.Controllers
                                     .InserirAsync(idPostagem, comentarioInput)
                                     .ConfigureAwait(false);
 
-                return Created("", user);  //traduzir?
+                return Created("", user); 
             }
-            catch (Exception arg)
+            catch (ArgumentException arg)
             {
                 return BadRequest(arg.Message);
             }
@@ -133,15 +134,11 @@ namespace CottonCandy.API.Controllers
         [Route("linhaDoTempo")]
         public async Task<IActionResult> LinhaDoTempo()
         {
-            var perfil = await _postagemAppService
+            var linhaDoTempo = await _postagemAppService
                                 .ObterLinhaDoTempoAsync()
-                                //Método Get para usuários e postagens
                                 .ConfigureAwait(false);
 
-            //if (perfil is null)
-            //    return NotFound();
-
-            return Ok(perfil);
+            return Ok(linhaDoTempo);
 
         }
     }

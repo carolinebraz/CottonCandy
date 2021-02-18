@@ -40,7 +40,6 @@ namespace CottonCandy.Repositories
                     var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
 
                     return int.Parse(id.ToString());
-                    //validar 
                 }
             }
         }

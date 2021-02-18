@@ -47,9 +47,17 @@ namespace CottonCandy.Application.AppPostagem
                             .ConfigureAwait(false);
         }
 
-        public async Task<int> InsertAsync(int postagemId)
+        public async Task<string> InsertAsync(int postagemId)
         {
-            //Método que insere curtida na postagem
+            var postagens = await _postagemRepository
+                                    .GetIdPostagensAsync()
+                                    .ConfigureAwait(false);
+
+            if (!postagens.Contains(postagemId))
+            {
+                throw new ArgumentException("Não existe publicação com esse ID");
+            }
+
 
             var usuarioId = _logado.GetUsuarioLogadoId();
 
@@ -66,22 +74,26 @@ namespace CottonCandy.Application.AppPostagem
 
             if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
             {
+                //Corrigir msg de retorno
                 if (curtida != null)
                 {
-                    await _curtidasRepository
-                             .DeleteAsync(curtida.Id)
-                             .ConfigureAwait(false);
+                    var descurtiu = await _curtidasRepository
+                                             .DeleteAsync(curtida.Id)
+                                             .ConfigureAwait(false);
 
-                    return default;
+                    var resultado = ("Você descurtiu a postagem de número " + postagemId);
+                    return resultado;
                 }
                 else
                 {
                     var novaCurtida = new Curtidas(usuarioId, postagemId);
-                    //Validar os dados obriatorios..
+                    
+                    var curtiu = await _curtidasRepository
+                                            .InsertAsync(novaCurtida)
+                                            .ConfigureAwait(false);
 
-                    return await _curtidasRepository
-                                    .InsertAsync(novaCurtida)
-                                    .ConfigureAwait(false);
+                    var resultado = ("Você curtiu a postagem de número " + postagemId);
+                    return resultado;
                 }
             }
             else

@@ -12,12 +12,15 @@ namespace CottonCandy.Application.AppUsuario
     public class AmigosAppService : IAmigosAppService
     {
         private readonly IAmigosRepository _amigosRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly ILogado _logado;
 
         public AmigosAppService(IAmigosRepository amigosRepository,
+                                IUsuarioRepository usuarioRepository,
                                 ILogado logado)
         {
             _amigosRepository = amigosRepository;
+            _usuarioRepository = usuarioRepository;
             _logado = logado;
         }
 
@@ -44,17 +47,26 @@ namespace CottonCandy.Application.AppUsuario
 
         }
 
-        public async Task<int> SeguirAsync(int idSeguido)
+        public async Task<string> SeguirAsync(int idSeguido)
         {
             var idSeguidor = _logado.GetUsuarioLogadoId();
+
+            if(idSeguido == idSeguidor)
+            {
+                throw new Exception("Você não pode seguir a si mesmo");
+            }
 
             var idAmigos = await _amigosRepository
                                       .GetListaAmigos(idSeguidor)
                                       .ConfigureAwait(false);
 
+            var usuario = await _usuarioRepository
+                                      .GetNomeFotoByIdUsuarioAsync(idSeguido)
+                                      .ConfigureAwait(false);
+
             if (idAmigos.Contains(idSeguido))
             {
-                throw new Exception("Você já segue esse usuário");
+                throw new Exception("Você já segue " + usuario.Nome);
             }
 
             var novoAmigo = new Amigos(idSeguidor, idSeguido);
@@ -62,8 +74,10 @@ namespace CottonCandy.Application.AppUsuario
             int idRelacionamento = await _amigosRepository
                                               .SeguirAsync(novoAmigo)
                                               .ConfigureAwait(false);
+            
+            var resultado = "Você está seguindo " + usuario.Nome;
 
-            return idRelacionamento;
+            return resultado;
         }
     }
 }

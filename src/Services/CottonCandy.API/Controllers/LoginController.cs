@@ -49,7 +49,7 @@ namespace CottonCandy.API.Controllers
 
                 return Unauthorized("Sem permissão"); //quer dizer que algum dado esta errado: email ou senha
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message + " " + ex.InnerException); // retorno de usuario nao encontrado
             }
