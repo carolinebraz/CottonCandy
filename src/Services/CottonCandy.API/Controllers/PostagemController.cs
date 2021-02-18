@@ -63,11 +63,11 @@ namespace CottonCandy.API.Controllers
         {
             try
             {
-                var curtida = await _curtidasAppService
+                var curtidas = await _curtidasAppService
                                         .InsertAsync(idPostagem)
                                         .ConfigureAwait(false);
 
-                return Created("", "");
+                return Created("", curtidas);
             }
             catch (ArgumentException arg)
             {
