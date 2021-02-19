@@ -18,9 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\CottonCandy.Application\CottonCandy.Application.csproj" />
-    <ProjectReference Include="..\..\Modules\CottonCandy.Domain\CottonCandy.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\CottonCandy.Repositories.IoC\CottonCandy.Repositories.IoC.csproj" />
-    <ProjectReference Include="..\..\Modules\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
 

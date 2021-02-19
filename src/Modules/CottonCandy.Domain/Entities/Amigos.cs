@@ -35,5 +35,9 @@ namespace CottonCandy.Domain.Entities
         public String NomeAmigo { get; private set; }
         public DateTime DataAmizade { get; private set; }
 
+        public void SetId(int id)
+        {
+            Id = id;
+        }
     }
 }

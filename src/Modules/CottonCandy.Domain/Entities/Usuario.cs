@@ -79,7 +79,7 @@ namespace CottonCandy.Domain.Entities
 
         public void SetId(int id)
         {
-            Id = id; ;
+            Id = id;
         }
     }
 }

@@ -38,6 +38,15 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input)
         {
+            var postagens = await _postagemRepository
+                                    .GetIdPostagensAsync()
+                                    .ConfigureAwait(false);
+
+            if (!postagens.Contains(idPostagem))
+            {
+                throw new Exception("Não existe publicação com esse ID");
+            }
+
             var usuarioId = _logado.GetUsuarioLogadoId();
 
             var usuarioPostagemId = await _postagemRepository
@@ -52,7 +61,10 @@ namespace CottonCandy.Application.AppPostagem
             {
                 var comentario = new Comentario(idPostagem, usuarioId, input.Texto);
 
-                //Validar os dados obrigatorios
+                if (!comentario.EhValido())
+                {
+                    throw new ArgumentException("Você não pode inserir um comentário vazio");
+                }
 
                 var id = await _comentarioRepository
                                   .InserirAsync(comentario)

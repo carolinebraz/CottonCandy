@@ -35,5 +35,16 @@ namespace CottonCandy.Domain.Entities
         {
             Id = id;
         }
+
+        public bool EhValido()
+        {
+            bool valido = true;
+            if (string.IsNullOrEmpty(Texto))
+            {
+                valido = false;
+            }
+
+            return valido;
+        }
     }
 }

@@ -180,7 +180,7 @@ namespace CottonCandy.Repositories
             }
         
 
-        public async Task<List<String>> GetEmail()
+        public async Task<List<string>> GetEmail()
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -197,7 +197,7 @@ namespace CottonCandy.Repositories
                     var reader = await cmd
                                         .ExecuteReaderAsync()
                                         .ConfigureAwait(false);
-                    List<String> listaEmails = new List<string>();
+                    List<string> listaEmails = new List<string>();
 
                     while (reader.Read())
                     {

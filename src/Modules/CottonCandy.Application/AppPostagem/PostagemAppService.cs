@@ -4,6 +4,7 @@ using CottonCandy.Application.AppUsuario.Output;
 using CottonCandy.Domain.Core.Interfaces;
 using CottonCandy.Domain.Entities;
 using CottonCandy.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,10 @@ namespace CottonCandy.Application.AppPostagem
 
             var postagem = new Postagem(input.Texto, input.FotoPost, usuarioId);
 
-            //Validar classe com dados obrigatorios..
+            if (!postagem.EhValido())
+            {
+                throw new ArgumentException("Você não pode inserir uma postagem sem texto");
+            }
 
             int id = await _postagemRepository
                               .InsertAsync(postagem)
@@ -57,7 +61,7 @@ namespace CottonCandy.Application.AppPostagem
             var idUsuarioLogado = _logado.GetUsuarioLogadoId();
 
             var postagensDosAmigos = await _postagemRepository
-                                              .GetLinhaDoTempoIdAsync(idUsuarioLogado)
+                                              .GetLinhaDoTempoDosAmigosAsync(idUsuarioLogado)
                                               .ConfigureAwait(false);
 
             var postagensUsuario = await _postagemRepository
@@ -89,7 +93,7 @@ namespace CottonCandy.Application.AppPostagem
                     TextoPost = postagem.Texto,
                     FotoPost = postagem.FotoPost,
                     DataPostagem = postagem.DataPostagem
-                }); //new postagem viewmodel
+                });
 
             } //for each
 

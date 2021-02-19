@@ -32,7 +32,7 @@ namespace CottonCandy.API.Controllers
             }
             catch (Exception arg)
             {
-                return BadRequest(arg.Message);
+                return Conflict(arg.Message);
             }
         }
 

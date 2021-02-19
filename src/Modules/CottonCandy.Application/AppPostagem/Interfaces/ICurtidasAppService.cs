@@ -6,7 +6,7 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
 {
     public interface ICurtidasAppService
     {
-        Task<int> InsertAsync(int postagemId);
+        Task<string> InsertAsync(int postagemId);
         Task<List<Curtidas>> GetByUsuarioIdAsync(int usuarioId);
         Task<List<Curtidas>> GetByPostagemIdAsync(int postagemId);
         Task<int> GetQtdeCurtidasByPostagemIdAsync(int postagemId);

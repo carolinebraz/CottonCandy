@@ -9,5 +9,6 @@ namespace CottonCandy.Domain.Interfaces
         Task<int> SeguirAsync(Amigos amigo);
         Task<List<int>> GetListaAmigos(int idUsuarioSeguidor);
         Task<List<Amigos>> GetListaAmigosNomeId(int idUsuarioSeguidor);
+        Task<string> DeixarDeSeguir(Amigos amizade);
     }
 }

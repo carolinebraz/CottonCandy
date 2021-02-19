@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CottonCandy.Repositories
 {
-    public class ComentarioRepository : IComentarioRepository //sublinhado pois  ainda não implementei os dois métodos
+    public class ComentarioRepository : IComentarioRepository
     {
 
         private readonly IConfiguration _configuration;
@@ -56,14 +56,13 @@ namespace CottonCandy.Repositories
                                                         DateTime.Parse(reader["DataComentario"].ToString()));
 
                         comentariosDaPostagem.Add(comentario);
-                    }//while
+                    }
 
                     return comentariosDaPostagem;
-                }//using
-            }//1o using
-        }//fim de PegarComentariosPorIdPostagemAsync
+                }
+            }
+        }
 
-        //terminar depois que eu fizer o get
         async Task<int> IComentarioRepository.InserirAsync(Comentario comentario)
         {
             using (var conexao = new SqlConnection(_configuration["ConnectionString"]))
@@ -78,8 +77,6 @@ namespace CottonCandy.Repositories
                                                   @postagemId,
                                                   @texto,
                                                   @datacriacao); SELECT scope_identity();";
-
-                //essa nomenclatura  quem define é o método get acima
 
                 using (var comando = new SqlCommand(comandoSql, conexao))
                 {
@@ -96,8 +93,8 @@ namespace CottonCandy.Repositories
                                     .ConfigureAwait(false);
 
                     return int.Parse(id.ToString());
-                } //retorna a id do Comentario inserido
+                }
             }
-        }//fim de InserirAsync(Comentario)
+        }
     }
 }

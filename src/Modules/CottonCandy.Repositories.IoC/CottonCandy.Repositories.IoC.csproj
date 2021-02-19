@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CottonCandy.Application\CottonCandy.Application.csproj" />
+    <ProjectReference Include="..\CottonCandy.Domain\CottonCandy.Domain.csproj" />
     <ProjectReference Include="..\CottonCandy.Repositories\CottonCandy.Repositories.csproj" />
   </ItemGroup>
 
