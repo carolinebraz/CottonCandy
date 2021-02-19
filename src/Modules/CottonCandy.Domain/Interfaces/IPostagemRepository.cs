@@ -8,7 +8,7 @@ namespace CottonCandy.Domain.Interfaces
     public interface IPostagemRepository
     {
         Task<int> InsertAsync(Postagem postagem);
-        Task<List<Postagem>> ObterInformacoesPorIdAsync(int usuarioId);
+        Task<List<Postagem>> ObterPerfil(int usuarioId);
         Task<List<string>> GetByUserIdOnlyPhotosAsync(int usuarioId);
         Task<List<Postagem>> GetLinhaDoTempoDosAmigosAsync(int id);
         Task<int> GetUsuarioIdByPostagemId(int postagemId);

@@ -16,7 +16,7 @@ namespace CottonCandy.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<List<Postagem>> ObterInformacoesPorIdAsync(int usuarioId)
+        public async Task<List<Postagem>> ObterPerfil(int usuarioId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {

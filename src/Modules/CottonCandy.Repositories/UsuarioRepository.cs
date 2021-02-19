@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
@@ -19,60 +18,53 @@ namespace CottonCandy.Repositories
             _configuration = configuration;
         }
 
-        public async Task<Usuario> GetByIdAsync(int id)
+        public async Task<int> InserirUsuario(Usuario usuario)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT u.Id,
-                                       u.Nome,
-                                       u.Email,
-                                       u.Senha,
-                                       u.DataNascimento,
-                                       u.FotoPerfil,
-                                       u.Cargo,
-                                       u.Cidade,
-                                       u.FotoCapa,
-                                       g.Id as GeneroId,
-                                       g.Descricao
-                                  FROM
-                                       Usuario u
-                                  INNER JOIN
-                                       Genero g ON g.Id = u.GeneroId
-                                  WHERE
-                                       u.Id= '{id}'";
+                var sqlCmd = @"INSERT INTO
+                                   Usuario (GeneroId,
+                                            Nome,
+                                            Email,
+                                            Senha,
+                                            DataNascimento,
+                                            FotoPerfil,
+                                            Cargo,
+                                            Cidade,
+                                            FotoCapa)
+                                    VALUES (@generoId,
+                                            @nome,
+                                            @email,
+                                            @senha,
+                                            @dataNascimento,
+                                            @fotoPerfil,
+                                            @cargo,
+                                            @cidade,
+                                            @fotoCapa); SELECT scope_identity();";
 
-                using (var cmd = new SqlCommand(SqlCmd, con))
+
+                using (var cmd = new SqlCommand(sqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("generoId", usuario.Genero.Id);
+                    cmd.Parameters.AddWithValue("nome", usuario.Nome);
+                    cmd.Parameters.AddWithValue("email", usuario.Email);
+                    cmd.Parameters.AddWithValue("senha", usuario.Senha);
+                    cmd.Parameters.AddWithValue("dataNascimento", usuario.DataNascimento);
+                    cmd.Parameters.AddWithValue("fotoPerfil", usuario.FotoPerfil);
+                    cmd.Parameters.AddWithValue("cargo", usuario.Cargo);
+                    cmd.Parameters.AddWithValue("cidade", usuario.Cidade);
+                    cmd.Parameters.AddWithValue("fotoCapa", usuario.FotoCapa);
+
                     con.Open();
+                    var id = await cmd
+                                    .ExecuteScalarAsync()
+                                    .ConfigureAwait(false);
 
-                    var reader = await cmd
-                                        .ExecuteReaderAsync()
-                                        .ConfigureAwait(false);
-
-                    while (reader.Read())
-                    {
-                        var usuario = new Usuario(reader["Nome"].ToString(),
-                                                  reader["Email"].ToString(),
-                                                  reader["Senha"].ToString(),
-                                                  DateTime.Parse(reader["DataNascimento"].ToString()),
-                                                  new Genero(reader["Descricao"].ToString()),
-                                                  reader["FotoPerfil"].ToString(),
-                                                  reader["Cargo"].ToString(),
-                                                  reader["Cidade"].ToString(),
-                                                  reader["FotoCapa"].ToString());
-
-                        usuario.SetId(int.Parse(reader["Id"].ToString()));
-                        usuario.Genero.SetId(int.Parse(reader["GeneroId"].ToString()));
-
-                        return usuario;
-                    }
-
-                    return default;
+                    return int.Parse(id.ToString());
                 }
             }
         }
-
         public async Task<Usuario> GetByLoginAsync(string login)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
@@ -131,54 +123,60 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<int> InsertAsync(Usuario usuario)
+
+        public async Task<Usuario> ObterUsuario(int id)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var sqlCmd = @"INSERT INTO
-                                   Usuario (GeneroId,
-                                            Nome,
-                                            Email,
-                                            Senha,
-                                            DataNascimento,
-                                            FotoPerfil,
-                                            Cargo,
-                                            Cidade,
-                                            FotoCapa)
-                                    VALUES (@generoId,
-                                            @nome,
-                                            @email,
-                                            @senha,
-                                            @dataNascimento,
-                                            @fotoPerfil,
-                                            @cargo,
-                                            @cidade,
-                                            @fotoCapa); SELECT scope_identity();";
+                var SqlCmd = @$"SELECT u.Id,
+                                       u.Nome,
+                                       u.Email,
+                                       u.Senha,
+                                       u.DataNascimento,
+                                       u.FotoPerfil,
+                                       u.Cargo,
+                                       u.Cidade,
+                                       u.FotoCapa,
+                                       g.Id as GeneroId,
+                                       g.Descricao
+                                  FROM
+                                       Usuario u
+                                  INNER JOIN
+                                       Genero g ON g.Id = u.GeneroId
+                                  WHERE
+                                       u.Id= '{id}'";
 
-             
-                    using (var cmd = new SqlCommand(sqlCmd, con))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Parameters.AddWithValue("generoId", usuario.Genero.Id);
-                        cmd.Parameters.AddWithValue("nome", usuario.Nome);
-                        cmd.Parameters.AddWithValue("email", usuario.Email);
-                        cmd.Parameters.AddWithValue("senha", usuario.Senha);
-                        cmd.Parameters.AddWithValue("dataNascimento", usuario.DataNascimento);
-                        cmd.Parameters.AddWithValue("fotoPerfil", usuario.FotoPerfil);
-                        cmd.Parameters.AddWithValue("cargo", usuario.Cargo);
-                        cmd.Parameters.AddWithValue("cidade", usuario.Cidade);
-                        cmd.Parameters.AddWithValue("fotoCapa", usuario.FotoCapa);
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
 
-                        con.Open();
-                        var id = await cmd
-                                        .ExecuteScalarAsync()
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
                                         .ConfigureAwait(false);
 
-                        return int.Parse(id.ToString());
+                    while (reader.Read())
+                    {
+                        var usuario = new Usuario(reader["Nome"].ToString(),
+                                                  reader["Email"].ToString(),
+                                                  reader["Senha"].ToString(),
+                                                  DateTime.Parse(reader["DataNascimento"].ToString()),
+                                                  new Genero(reader["Descricao"].ToString()),
+                                                  reader["FotoPerfil"].ToString(),
+                                                  reader["Cargo"].ToString(),
+                                                  reader["Cidade"].ToString(),
+                                                  reader["FotoCapa"].ToString());
+
+                        usuario.SetId(int.Parse(reader["Id"].ToString()));
+                        usuario.Genero.SetId(int.Parse(reader["GeneroId"].ToString()));
+
+                        return usuario;
                     }
+
+                    return default;
                 }
             }
-        
+        }
 
         public async Task<List<string>> GetEmail()
         {
@@ -210,7 +208,7 @@ namespace CottonCandy.Repositories
             }
 
         }
-        public async Task<Usuario> ObterInformacoesPorIdAsync(int id)
+        public async Task<Usuario> ObterPerfil(int id)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {

@@ -15,7 +15,7 @@ namespace CottonCandy.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<Genero> GetByIdAsync(int id)
+        public async Task<Genero> ObterGenero(int id)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {

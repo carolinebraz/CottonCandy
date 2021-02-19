@@ -30,7 +30,7 @@ namespace CottonCandy.Application.AppPostagem
             var usuarioId = _logado.GetUsuarioLogadoId();
 
             var postagens = await _postagemRepository
-                                     .ObterInformacoesPorIdAsync(usuarioId)
+                                     .ObterPerfil(usuarioId)
                                      .ConfigureAwait(false);
             return postagens;
         }
@@ -65,7 +65,7 @@ namespace CottonCandy.Application.AppPostagem
                                               .ConfigureAwait(false);
 
             var postagensUsuario = await _postagemRepository
-                                            .ObterInformacoesPorIdAsync(idUsuarioLogado)
+                                            .ObterPerfil(idUsuarioLogado)
                                             .ConfigureAwait(false);
 
             List<Postagem> listaTodasPostagens = new List<Postagem>();

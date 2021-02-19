@@ -18,14 +18,14 @@ namespace CottonCandy.API.Controllers
             _usuarioAppService = usuarioAppService;
         }
 
-        [AllowAnonymous] // atributo para permitir o acesso por usuários não autenticados a ações individuais
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UsuarioInput usuarioInput)
+        public async Task<IActionResult> CadastrarUsuario([FromBody] UsuarioInput usuarioInput)
         {
             try
             {
                 var usuario = await _usuarioAppService
-                                        .InsertAsync(usuarioInput)
+                                        .InserirUsuario(usuarioInput)
                                         .ConfigureAwait(false);
 
                 return Created("", usuario);
@@ -39,10 +39,10 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id)
+        public async Task<IActionResult> ObterUsuario([FromRoute] int id)
         {
             var usuario = await _usuarioAppService
-                                    .GetByIdAsync(id)
+                                    .ObterUsuario(id)
                                     .ConfigureAwait(false);
 
             if (usuario is null)
@@ -54,10 +54,10 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("{id}/Perfil")]
-        public async Task<IActionResult> GetUsuarioPerfil([FromRoute] int id)
+        public async Task<IActionResult> ObterPerfil([FromRoute] int id)
         {
             var perfil = await _usuarioAppService
-                                    .ObterInformacoesPorIdAsync(id)
+                                    .ObterPerfil(id)
                                     .ConfigureAwait(false);
 
             if (perfil is null)
