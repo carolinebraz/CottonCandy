@@ -43,7 +43,8 @@ namespace CottonCandy.API.Controllers
                     {
                         authenticated = true,
                         accessToken = token, // retorno do acessToken
-                        message = "OK"
+                        message = "OK",
+                        userId = logado.Id
                     };
                 }
 
