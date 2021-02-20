@@ -54,6 +54,19 @@ git clone https://github.com/carolinebraz/CottonCandy.git
 npm install -g @angular/cli
 npm install bootstrap
 ```
+
+<p>3. Inicie o servidor.</p>
+
+```
+Back End: Compile a aplicação e inicie o programa no Visual Studio
+Front End: ng serve
+```
+
+<p>4. Navegue para os localhosts do projeto.</p>
+
+- Back End: [http://localhost:64667/](http://localhost:64667)
+- Front End: [http://localhost:4200/](http://localhost:4200)
+
 <br />
 
 ## :interrobang: Solução de problemas
