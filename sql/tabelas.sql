@@ -76,8 +76,11 @@ CREATE TABLE dbo.Amigos (
 	IdSeguido int NOT NULL,
 	CONSTRAINT PK_Amigos_Id PRIMARY KEY CLUSTERED (Id),
 
-	CONSTRAINT FK_Amigos_Usuario FOREIGN KEY (UsuarioId)
+	CONSTRAINT FK_Amigos_Usuario FOREIGN KEY (IdSeguidor)
 		REFERENCES dbo.Usuario (Id)
+
+	CONSTRAINT FK_Usuario_Amigos FOREIGN KEY (IdSeguido)
+		REFERENCES dbo.Usuario (id)
 )
 
 --Insere valores na tabela de gênero
@@ -101,7 +104,8 @@ ALTER TABLE Usuario
 --Insere coluna FotoCapa na tabela de usuário
 ALTER TABLE Usuario
 	ADD FotoCapa varchar(max)
-
+	
+--Retorna registros correspondentes nas tabelas de usuário e gênero
 SELECT
 	u.Id,
 	u.Nome,
@@ -113,10 +117,25 @@ FROM
 	Usuario u
 INNER JOIN 
 	Genero g ON g.Id = u.GeneroId
-
+	
+--Visualiza tabelas
 SELECT * FROM Usuario
 SELECT * FROM Genero
 SELECT * FROM Postagem
 SELECT * FROM Curtidas
 SELECT * FROM Comentario
 SELECT * FROM Amigos
+
+--Apaga todas as linhas das tabelas
+DELETE FROM Usuario
+DELETE FROM Postagem
+DELETE FROM Curtidas
+DELETE FROM Comentario
+DELETE FROM Amigos
+
+--Reinicia contagem de IDENTITY (zera colunas Id)
+DBCC CHECKIDENT(Usuario, RESEED, 0)
+DBCC CHECKIDENT(Postagem, RESEED, 0)
+DBCC CHECKIDENT(Curtidas, RESEED, 0)
+DBCC CHECKIDENT(Comentario, RESEED, 0)
+DBCC CHECKIDENT(Amigos, RESEED, 0)
