@@ -65,7 +65,7 @@ namespace CottonCandy.Repositories
                 }
             }
         }
-        public async Task<Usuario> GetByLoginAsync(string login)
+        public async Task<Usuario> ObterUsuarioPorLogin(string login)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {

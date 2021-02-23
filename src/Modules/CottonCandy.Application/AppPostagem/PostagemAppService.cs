@@ -27,7 +27,7 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<Postagem> InserirPostagem(PostagemInput input)
         {
-            var usuarioId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.ObterUsuarioLogado();
 
             var postagem = new Postagem(input.Texto, input.FotoPost, usuarioId);
 
@@ -48,7 +48,7 @@ namespace CottonCandy.Application.AppPostagem
 
         public async Task<List<Postagem>> ObterPostagens()
         {
-            var usuarioId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.ObterUsuarioLogado();
 
             var postagens = await _postagemRepository
                                      .ObterPerfil(usuarioId)
@@ -59,7 +59,7 @@ namespace CottonCandy.Application.AppPostagem
         public async Task<List<PostagemViewModel>> ObterLinhaDoTempo()
         {
 
-            var idUsuarioLogado = _logado.GetUsuarioLogadoId();
+            var idUsuarioLogado = _logado.ObterUsuarioLogado();
 
             var postagensDosAmigos = await _postagemRepository
                                               .ObterLinhaDoTempo(idUsuarioLogado)

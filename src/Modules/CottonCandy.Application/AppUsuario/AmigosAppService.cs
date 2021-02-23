@@ -26,7 +26,7 @@ namespace CottonCandy.Application.AppUsuario
 
         public async Task<List<AmigosViewModel>> ObterListaDeAmigos()
         {
-            var idSeguidor = _logado.GetUsuarioLogadoId();
+            var idSeguidor = _logado.ObterUsuarioLogado();
 
             var amigos = await _amigosRepository
                                     .ObterNomeListaDeAmigos(idSeguidor)
@@ -48,7 +48,7 @@ namespace CottonCandy.Application.AppUsuario
 
         public async Task<string> SeguirUsuario(int idSeguido)
         {
-            var idSeguidor = _logado.GetUsuarioLogadoId();
+            var idSeguidor = _logado.ObterUsuarioLogado();
 
             if (idSeguido == idSeguidor)
             {

@@ -17,17 +17,17 @@ namespace CottonCandy.Application.AppUsuario
         public async Task<UsuarioViewModel> LoginAsync(string email, string senha)
         {
             var usuario = await _usuarioRepository
-                                    .GetByLoginAsync(email)
+                                    .ObterUsuarioPorLogin(email)
                                     .ConfigureAwait(false);
 
             if (usuario is null)
             {
-                throw new Exception("Usuário não encontrado");
+                throw new ArgumentException("Usuário não encontrado");
             }
 
             if (!usuario.SenhaEhIgual(senha))
             {
-                return default;
+                throw new ArgumentException("Senha incorreta");
             }
 
             return new UsuarioViewModel()

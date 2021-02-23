@@ -9,7 +9,7 @@ namespace CottonCandy.Domain.Interfaces
     {
         Task<int> InserirUsuario(Usuario usuario);
         Task<Usuario> ObterUsuario(int id);
-        Task<Usuario> GetByLoginAsync(string login);
+        Task<Usuario> ObterUsuarioPorLogin(string login);
         Task<Usuario> ObterPerfil(int id);
         Task<Usuario> GetNomeFotoByIdUsuarioAsync(int idUsuario);
         Task<List<String>> GetEmail();

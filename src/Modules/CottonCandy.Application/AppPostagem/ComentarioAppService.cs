@@ -38,7 +38,7 @@ namespace CottonCandy.Application.AppPostagem
                 throw new Exception("Não existe publicação com esse ID");
             }
 
-            var usuarioId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.ObterUsuarioLogado();
 
             var usuarioPostagemId = await _postagemRepository
                                                 .GetUsuarioIdByPostagemId(idPostagem);

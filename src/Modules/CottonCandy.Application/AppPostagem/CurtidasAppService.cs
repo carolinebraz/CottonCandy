@@ -37,7 +37,7 @@ namespace CottonCandy.Application.AppPostagem
                 throw new ArgumentException("Não existe publicação com esse ID");
             }
 
-            var usuarioId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.ObterUsuarioLogado();
 
             var curtida = await _curtidasRepository
                                     .GetByUsuarioIdAndPostagemIdAsync(usuarioId, postagemId)
@@ -99,7 +99,5 @@ namespace CottonCandy.Application.AppPostagem
                             .GetByUsuarioIdAsync(usuarioId)
                             .ConfigureAwait(false);
         }
-
-
     }
 }
