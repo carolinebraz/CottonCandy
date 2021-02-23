@@ -25,7 +25,28 @@ namespace CottonCandy.Application.AppPostagem
             _logado = logado;
         }
 
-        public async Task<List<Postagem>> GetByUserIdAsync()
+        public async Task<Postagem> InserirPostagem(PostagemInput input)
+        {
+            var usuarioId = _logado.GetUsuarioLogadoId();
+
+            var postagem = new Postagem(input.Texto, input.FotoPost, usuarioId);
+
+            if (!postagem.EhValido())
+            {
+                throw new ArgumentException("Você não pode inserir uma postagem vazia");
+            }
+
+            int id = await _postagemRepository
+                              .InserirPostagem(postagem)
+                              .ConfigureAwait(false);
+
+            postagem.SetId(id);
+
+            return postagem;
+        }
+
+
+        public async Task<List<Postagem>> ObterPostagens()
         {
             var usuarioId = _logado.GetUsuarioLogadoId();
 
@@ -35,33 +56,13 @@ namespace CottonCandy.Application.AppPostagem
             return postagens;
         }
 
-        public async Task<Postagem> InsertAsync(PostagemInput input)
-        {
-            var usuarioId = _logado.GetUsuarioLogadoId();
-
-            var postagem = new Postagem(input.Texto, input.FotoPost, usuarioId);
-
-            if (!postagem.EhValido())
-            {
-                throw new ArgumentException("Você não pode inserir uma postagem sem texto");
-            }
-
-            int id = await _postagemRepository
-                              .InsertAsync(postagem)
-                              .ConfigureAwait(false);
-
-            postagem.SetId(id);
-
-            return postagem;
-        }
-
-        public async Task<List<PostagemViewModel>> ObterLinhaDoTempoAsync()
+        public async Task<List<PostagemViewModel>> ObterLinhaDoTempo()
         {
 
             var idUsuarioLogado = _logado.GetUsuarioLogadoId();
 
             var postagensDosAmigos = await _postagemRepository
-                                              .GetLinhaDoTempoDosAmigosAsync(idUsuarioLogado)
+                                              .ObterLinhaDoTempo(idUsuarioLogado)
                                               .ConfigureAwait(false);
 
             var postagensUsuario = await _postagemRepository
@@ -95,7 +96,7 @@ namespace CottonCandy.Application.AppPostagem
                     DataPostagem = postagem.DataPostagem
                 });
 
-            } //for each
+            }
 
             List<PostagemViewModel> listaOrdenada = listaPostagens
                                                         .OrderBy(o => o.DataPostagem)

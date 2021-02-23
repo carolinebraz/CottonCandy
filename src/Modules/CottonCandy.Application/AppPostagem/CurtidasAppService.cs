@@ -26,31 +26,10 @@ namespace CottonCandy.Application.AppPostagem
             _logado = logado;
         }
 
-        public async Task<int> GetQtdeCurtidasByPostagemIdAsync(int postagemId)
-        {
-            return await _curtidasRepository
-                            .GetQtdeCurtidasByPostagemIdAsync(postagemId)
-                            .ConfigureAwait(false);
-        }
-
-        public async Task<List<Curtidas>> GetByPostagemIdAsync(int postagemId)
-        {
-            return await _curtidasRepository
-                            .GetByPostagemIdAsync(postagemId)
-                            .ConfigureAwait(false);
-        }
-
-        public async Task<List<Curtidas>> GetByUsuarioIdAsync(int usuarioId)
-        {
-            return await _curtidasRepository
-                            .GetByUsuarioIdAsync(usuarioId)
-                            .ConfigureAwait(false);
-        }
-
-        public async Task<string> InsertAsync(int postagemId)
+        public async Task<string> Curtir(int postagemId)
         {
             var postagens = await _postagemRepository
-                                    .GetIdPostagensAsync()
+                                    .ObterPostagens()
                                     .ConfigureAwait(false);
 
             if (!postagens.Contains(postagemId))
@@ -73,11 +52,10 @@ namespace CottonCandy.Application.AppPostagem
 
             if (amigosId.Contains(usuarioPostagemId) || usuarioPostagemId == usuarioId)
             {
-                //Corrigir msg de retorno
                 if (curtida != null)
                 {
                     var descurtiu = await _curtidasRepository
-                                             .DeleteAsync(curtida.Id)
+                                             .Descurtir(curtida.Id)
                                              .ConfigureAwait(false);
 
                     var resultado = ("Você descurtiu a postagem de número " + postagemId);
@@ -86,9 +64,9 @@ namespace CottonCandy.Application.AppPostagem
                 else
                 {
                     var novaCurtida = new Curtidas(usuarioId, postagemId);
-                    
+
                     var curtiu = await _curtidasRepository
-                                            .InsertAsync(novaCurtida)
+                                            .Curtir(novaCurtida)
                                             .ConfigureAwait(false);
 
                     var resultado = ("Você curtiu a postagem de número " + postagemId);
@@ -100,5 +78,28 @@ namespace CottonCandy.Application.AppPostagem
                 throw new Exception("Você não pode curtir essa publicação, porque você não segue este usuário");
             }
         }
+
+        public async Task<int> ObterCurtidas(int postagemId)
+        {
+            return await _curtidasRepository
+                            .ObterCurtidas(postagemId)
+                            .ConfigureAwait(false);
+        }
+
+        public async Task<List<Curtidas>> GetByPostagemIdAsync(int postagemId)
+        {
+            return await _curtidasRepository
+                            .GetByPostagemIdAsync(postagemId)
+                            .ConfigureAwait(false);
+        }
+
+        public async Task<List<Curtidas>> GetByUsuarioIdAsync(int usuarioId)
+        {
+            return await _curtidasRepository
+                            .GetByUsuarioIdAsync(usuarioId)
+                            .ConfigureAwait(false);
+        }
+
+
     }
 }
