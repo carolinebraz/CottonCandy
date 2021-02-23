@@ -122,7 +122,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<string>> GetByUserIdOnlyPhotosAsync(int usuarioId)
+        public async Task<List<string>> ObterFotos(int usuarioId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {

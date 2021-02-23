@@ -25,7 +25,7 @@ namespace CottonCandy.API.Controllers
             try
             {
                 var idRelacionamento = await _amigosAppService
-                                                .SeguirAsync(idSeguido)
+                                                .SeguirUsuario(idSeguido)
                                                 .ConfigureAwait(false);
 
                 return Created("", idRelacionamento);
@@ -38,10 +38,10 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> ObterListaDeAmigos()
         {
             var amigos = await _amigosAppService
-                                    .GetListaAmigos()
+                                    .ObterListaDeAmigos()
                                     .ConfigureAwait(false);
 
             if (amigos is null)

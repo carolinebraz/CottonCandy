@@ -13,10 +13,10 @@ namespace CottonCandy.Application.AppPostagem
             _postagemRepository = postagemRepository;
         }
 
-        public async Task<List<string>> GetByUserIdOnlyPhotoAsync(int idUsuario)
+        public async Task<List<string>> ObterFotos(int idUsuario)
         {
             var fotos = await _postagemRepository
-                                    .GetByUserIdOnlyPhotosAsync(idUsuario)
+                                    .ObterFotos(idUsuario)
                                     .ConfigureAwait(false);
             return fotos;
         }

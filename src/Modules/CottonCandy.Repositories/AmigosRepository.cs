@@ -17,7 +17,7 @@ namespace CottonCandy.Repositories
             _configuration = configuration;
         }
 
-        public async Task<int> SeguirAsync(Amigos amigo)
+        public async Task<int> SeguirUsuario(Amigos amigo)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -44,7 +44,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<int>> GetListaAmigos(int idUsuarioSeguidor)
+        public async Task<List<int>> ObterListaDeAmigos(int idUsuarioSeguidor)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -72,18 +72,21 @@ namespace CottonCandy.Repositories
                     return listaIdAmigos;
                 }
             }
-
         }
 
-        public async Task<List<Amigos>> GetListaAmigosNomeId(int idUsuarioSeguidor)
+        public async Task<List<Amigos>> ObterNomeListaDeAmigos(int idUsuarioSeguidor)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT a.Id, a.IdSeguido, u.Nome
-                                    FROM Amigos a
-                                    INNER JOIN
-                                    Usuario u ON u.Id = a.IdSeguido
-                                    WHERE IdSeguidor =  '{idUsuarioSeguidor}'";
+                var SqlCmd = @$"SELECT  a.Id, 
+                                        a.IdSeguido, 
+                                        u.Nome
+                                  FROM 
+                                        Amigos a
+                                INNER JOIN
+                                        Usuario u ON u.Id = a.IdSeguido
+                                  WHERE 
+                                        IdSeguidor =  '{idUsuarioSeguidor}'";
 
                 using (var cmd = new SqlCommand(SqlCmd, con))
                 {
@@ -105,7 +108,6 @@ namespace CottonCandy.Repositories
                     return listaAmigos;
                 }
             }
-
         }
 
         public async Task<string> DeixarDeSeguir(Amigos amizade)

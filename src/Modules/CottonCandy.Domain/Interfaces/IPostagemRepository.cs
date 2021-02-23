@@ -9,7 +9,7 @@ namespace CottonCandy.Domain.Interfaces
     {
         Task<int> InsertAsync(Postagem postagem);
         Task<List<Postagem>> ObterPerfil(int usuarioId);
-        Task<List<string>> GetByUserIdOnlyPhotosAsync(int usuarioId);
+        Task<List<string>> ObterFotos(int usuarioId);
         Task<List<Postagem>> GetLinhaDoTempoDosAmigosAsync(int id);
         Task<int> GetUsuarioIdByPostagemId(int postagemId);
         Task<List<int>> GetIdPostagensAsync();

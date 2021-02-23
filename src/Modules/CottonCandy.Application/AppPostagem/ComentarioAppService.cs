@@ -53,7 +53,7 @@ namespace CottonCandy.Application.AppPostagem
                                                 .GetUsuarioIdByPostagemId(idPostagem);
 
             var amigosId = await _amigosRepository
-                                    .GetListaAmigos(usuarioId)
+                                    .ObterListaDeAmigos(usuarioId)
                                     .ConfigureAwait(false);
 
 
