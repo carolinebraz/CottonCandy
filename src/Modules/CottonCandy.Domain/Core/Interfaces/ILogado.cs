@@ -2,6 +2,6 @@
 {
     public interface ILogado
     {
-        int GetUsuarioLogadoId();
+        int ObterUsuarioLogado();
     }
 }

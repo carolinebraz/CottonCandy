@@ -6,9 +6,9 @@ namespace CottonCandy.Domain.Interfaces
 {
     public interface IAmigosRepository
     {
-        Task<int> SeguirAsync(Amigos amigo);
-        Task<List<int>> GetListaAmigos(int idUsuarioSeguidor);
-        Task<List<Amigos>> GetListaAmigosNomeId(int idUsuarioSeguidor);
+        Task<int> SeguirUsuario(Amigos amigo);
+        Task<List<int>> ObterListaDeAmigos(int idUsuarioSeguidor);
+        Task<List<Amigos>> ObterNomeListaDeAmigos(int idUsuarioSeguidor);
         Task<string> DeixarDeSeguir(Amigos amizade);
     }
 }

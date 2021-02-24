@@ -26,10 +26,10 @@ namespace CottonCandy.Application.AppUsuario
             _postagemRepository = postagemRepository;
             _logado = logado;
         }
-        public async Task<UsuarioViewModel> GetByIdAsync(int id)
+        public async Task<UsuarioViewModel> ObterUsuario(int id)
         {
             var usuario = await _usuarioRepository
-                                    .GetByIdAsync(id)
+                                    .ObterUsuario(id)
                                     .ConfigureAwait(false);
 
             if (usuario is null)
@@ -49,10 +49,10 @@ namespace CottonCandy.Application.AppUsuario
             };
         }
 
-        public async Task<UsuarioViewModel> InsertAsync(UsuarioInput input)
+        public async Task<UsuarioViewModel> InserirUsuario(UsuarioInput input)
         {
             var genero = await _generoRepository
-                                   .GetByIdAsync(input.GeneroId)
+                                   .ObterGenero(input.GeneroId)
                                    .ConfigureAwait(false);
 
             var listaEmails = await _usuarioRepository.GetEmail();
@@ -85,7 +85,7 @@ namespace CottonCandy.Application.AppUsuario
                 }
 
                 var id = await _usuarioRepository
-                                    .InsertAsync(usuario)
+                                    .InserirUsuario(usuario)
                                     .ConfigureAwait(false);
 
                 return new UsuarioViewModel()
@@ -103,14 +103,14 @@ namespace CottonCandy.Application.AppUsuario
             }
         }
 
-        public async Task<PerfilUsuarioViewModel> ObterInformacoesPorIdAsync(int id)
+        public async Task<PerfilUsuarioViewModel> ObterPerfil(int id)
         {
             var infos = await _usuarioRepository
-                                   .ObterInformacoesPorIdAsync(id)
+                                   .ObterPerfil(id)
                                    .ConfigureAwait(false);
 
             var postagens = await _postagemRepository
-                                        .ObterInformacoesPorIdAsync(id)
+                                        .ObterPerfil(id)
                                         .ConfigureAwait(false);
 
             if (infos is null)

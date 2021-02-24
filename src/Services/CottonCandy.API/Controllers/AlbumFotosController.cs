@@ -19,12 +19,12 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route ("{idUsuario}")]
-        public async Task<IActionResult> GetFotos(int idUsuario)
+        public async Task<IActionResult> ObterFotos(int idUsuario)
         {
             try
             {
                 var fotos = await _albumFotosAppService
-                                       .GetByUserIdOnlyPhotoAsync(idUsuario)
+                                       .ObterFotos(idUsuario)
                                        .ConfigureAwait(false);
 
                 return Ok(fotos);

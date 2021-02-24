@@ -13,7 +13,7 @@ namespace CottonCandy.Domain.Core
             _accessor = accessor;
         }
 
-        public int GetUsuarioLogadoId()
+        public int ObterUsuarioLogado()
         {
             var id = _accessor.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == "jti").Value;
 

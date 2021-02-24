@@ -8,8 +8,8 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
 {
     public interface IPostagemAppService
     {
-        Task<Postagem> InsertAsync(PostagemInput input);
-        Task<List<Postagem>> GetByUserIdAsync();
-        Task<List<PostagemViewModel>> ObterLinhaDoTempoAsync();
+        Task<Postagem> InserirPostagem(PostagemInput input);
+        Task<List<Postagem>> ObterPostagens();
+        Task<List<PostagemViewModel>> ObterLinhaDoTempo();
     }
 }

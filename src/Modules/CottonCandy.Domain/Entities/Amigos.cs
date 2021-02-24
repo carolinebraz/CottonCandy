@@ -32,7 +32,7 @@ namespace CottonCandy.Domain.Entities
         public int Id { get; private set; }
         public int IdUsuarioSeguidor { get; private set; }
         public int IdUsuarioSeguido { get; private set; }
-        public String NomeAmigo { get; private set; }
+        public string NomeAmigo { get; private set; }
         public DateTime DataAmizade { get; private set; }
 
         public void SetId(int id)

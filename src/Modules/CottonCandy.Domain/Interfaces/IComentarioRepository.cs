@@ -6,7 +6,7 @@ namespace CottonCandy.Domain.Interfaces
 {
     public interface IComentarioRepository
     {
-        public Task<int> InserirAsync(Comentario comentario);
-        public Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem);
+        public Task<int> InserirComentario(Comentario comentario);
+        public Task<List<Comentario>> ObterComentarios(int idPostagem);
     }
 }

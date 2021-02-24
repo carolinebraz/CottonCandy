@@ -16,7 +16,68 @@ namespace CottonCandy.Repositories
         {
             _configuration = configuration;
         }
-        public async Task<List<Postagem>> ObterInformacoesPorIdAsync(int usuarioId)
+
+        public async Task<int> InserirPostagem(Postagem postagem)
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var sqlCmd = @"INSERT INTO
+                                      Postagem (Texto,
+                                                DataPostagem,
+                                                FotoPost,
+                                                UsuarioId)
+                                      VALUES (@texto,
+                                              @dataPostagem,
+                                              @fotoPost,
+                                              @usuarioId); SELECT scope_identity();";
+
+                using (var cmd = new SqlCommand(sqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("texto", postagem.Texto);
+                    cmd.Parameters.AddWithValue("dataPostagem", postagem.DataPostagem);
+                    cmd.Parameters.AddWithValue("fotoPost", postagem.FotoPost);
+                    cmd.Parameters.AddWithValue("usuarioId", postagem.UsuarioId);
+
+                    con.Open();
+                    var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
+
+                    return int.Parse(id.ToString());
+                }
+            }
+        }
+
+        public async Task<List<int>> ObterPostagens()
+        {
+            using (var con = new SqlConnection(_configuration["ConnectionString"]))
+            {
+                var SqlCmd = @$"SELECT
+                                       P.Id
+                                  FROM 
+	                                   Postagem P";
+
+                using (var cmd = new SqlCommand(SqlCmd, con))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    con.Open();
+
+                    var reader = await cmd
+                                        .ExecuteReaderAsync()
+                                        .ConfigureAwait(false);
+
+                    List<int> listaIdPostagens = new List<int>();
+
+                    while (reader.Read())
+                    {
+                        listaIdPostagens.Add(int.Parse(reader["Id"].ToString()));
+                    }
+
+                    return listaIdPostagens;
+                }
+            }
+        }
+
+        public async Task<List<Postagem>> ObterPerfil(int usuarioId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -58,71 +119,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<int> GetUsuarioIdByPostagemId(int postagemId)
-        {
-            using (var con = new SqlConnection(_configuration["ConnectionString"]))
-            {
-                var sqlCmd = @$"SELECT 
-                                    UsuarioId
-                                FROM 
-	                                Postagem
-                                WHERE 
-	                                Id= '{postagemId}'";
-
-                using (var cmd = new SqlCommand(sqlCmd, con))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    con.Open();
-
-                    var reader = await cmd
-                                        .ExecuteReaderAsync()
-                                        .ConfigureAwait(false);
-
-                    var postagensUsuario = new List<Postagem>();
-
-                    int id = -300;
-
-                    while (reader.Read())
-                    {
-                        id = int.Parse(reader["UsuarioId"].ToString());
-                    }
-
-                    return id;
-                }
-            }
-        }
-
-        public async Task<int> InsertAsync(Postagem postagem)
-        {
-            using (var con = new SqlConnection(_configuration["ConnectionString"]))
-            {
-                var sqlCmd = @"INSERT INTO
-                                      Postagem (Texto,
-                                                DataPostagem,
-                                                FotoPost,
-                                                UsuarioId)
-                                      VALUES (@texto,
-                                              @dataPostagem,
-                                              @fotoPost,
-                                              @usuarioId); SELECT scope_identity();";
-
-                using (var cmd = new SqlCommand(sqlCmd, con))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("texto", postagem.Texto);
-                    cmd.Parameters.AddWithValue("dataPostagem", postagem.DataPostagem);
-                    cmd.Parameters.AddWithValue("fotoPost", postagem.FotoPost);
-                    cmd.Parameters.AddWithValue("usuarioId", postagem.UsuarioId);
-
-                    con.Open();
-                    var id = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
-
-                    return int.Parse(id.ToString());
-                }
-            }
-        }
-
-        public async Task<List<string>> GetByUserIdOnlyPhotosAsync(int usuarioId)
+        public async Task<List<string>> ObterFotos(int usuarioId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -159,7 +156,7 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<Postagem>> GetLinhaDoTempoDosAmigosAsync(int idUsuarioLogado)
+        public async Task<List<Postagem>> ObterLinhaDoTempo(int idUsuarioLogado)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
@@ -207,15 +204,18 @@ namespace CottonCandy.Repositories
             }
         }
 
-        public async Task<List<int>> GetIdPostagensAsync()
+        public async Task<int> GetUsuarioIdByPostagemId(int postagemId)
         {
             using (var con = new SqlConnection(_configuration["ConnectionString"]))
             {
-                var SqlCmd = @$"SELECT P.Id
-                                  FROM 
-	                                   Postagem P";
+                var sqlCmd = @$"SELECT 
+                                    UsuarioId
+                                FROM 
+	                                Postagem
+                                WHERE 
+	                                Id= '{postagemId}'";
 
-                using (var cmd = new SqlCommand(SqlCmd, con))
+                using (var cmd = new SqlCommand(sqlCmd, con))
                 {
                     cmd.CommandType = CommandType.Text;
                     con.Open();
@@ -224,14 +224,16 @@ namespace CottonCandy.Repositories
                                         .ExecuteReaderAsync()
                                         .ConfigureAwait(false);
 
-                    List<int> listaIdPostagens = new List<int>();
+                    var postagensUsuario = new List<Postagem>();
+
+                    int id = -300;
 
                     while (reader.Read())
                     {
-                        listaIdPostagens.Add(int.Parse(reader["Id"].ToString()));
+                        id = int.Parse(reader["UsuarioId"].ToString());
                     }
 
-                    return listaIdPostagens;
+                    return id;
                 }
             }
         }

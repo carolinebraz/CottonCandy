@@ -26,12 +26,12 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostagemInput postagemInput)
+        public async Task<IActionResult> InserirPostagem([FromBody] PostagemInput postagemInput)
         {
             try
             {
                 var postagem = await _postagemAppService
-                                        .InsertAsync(postagemInput)
+                                        .InserirPostagem(postagemInput)
                                         .ConfigureAwait(false);
 
                 return Created("", postagem);
@@ -44,10 +44,10 @@ namespace CottonCandy.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> ObterPostagens()
         {
             var postagem = await _postagemAppService
-                                    .GetByUserIdAsync()
+                                    .ObterPostagens()
                                     .ConfigureAwait(false);
 
             if (postagem is null)
@@ -59,12 +59,12 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpPost]
         [Route("{idPostagem}/Curtidas")]
-        public async Task<IActionResult> PostCurtidas([FromRoute] int idPostagem)
+        public async Task<IActionResult> CurtirPostagem([FromRoute] int idPostagem)
         {
             try
             {
                 var curtidas = await _curtidasAppService
-                                        .InsertAsync(idPostagem)
+                                        .Curtir(idPostagem)
                                         .ConfigureAwait(false);
 
                 return Created("", curtidas);
@@ -78,12 +78,12 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("{idPostagem}/Curtidas/Total")]
-        public async Task<IActionResult> GetCurtidas([FromRoute] int idPostagem)
+        public async Task<IActionResult> ObterCurtidas([FromRoute] int idPostagem)
         {
             try
             {
                 var quantity = await _curtidasAppService
-                                        .GetQtdeCurtidasByPostagemIdAsync(idPostagem)
+                                        .ObterCurtidas(idPostagem)
                                         .ConfigureAwait(false);
 
                 return Ok(quantity);
@@ -97,13 +97,13 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpPost]
         [Route("{idPostagem}/Comentarios")]
-        public async Task<IActionResult> PostComentarios([FromRoute] int idPostagem, 
+        public async Task<IActionResult> ComentarPostagem([FromRoute] int idPostagem, 
                                                          [FromBody] ComentarioInput comentarioInput)
         {
             try
             {
                 var user = await _comentarioAppService
-                                    .InserirAsync(idPostagem, comentarioInput)
+                                    .InserirComentario(idPostagem, comentarioInput)
                                     .ConfigureAwait(false);
 
                 return Created("", user); 
@@ -117,10 +117,10 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("{idPostagem}/Comentarios")]
-        public async Task<IActionResult> GetComments([FromRoute] int idPostagem)
+        public async Task<IActionResult> ObterComentarios([FromRoute] int idPostagem)
         {
             var comments = await _comentarioAppService
-                                    .PegarComentariosPorIdPostagemAsync(idPostagem)
+                                    .ObterComentarios(idPostagem)
                                     .ConfigureAwait(false);
 
             if (comments is null)
@@ -132,14 +132,13 @@ namespace CottonCandy.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("linhaDoTempo")]
-        public async Task<IActionResult> LinhaDoTempo()
+        public async Task<IActionResult> ObterLinhaDoTempo()
         {
             var linhaDoTempo = await _postagemAppService
-                                .ObterLinhaDoTempoAsync()
+                                .ObterLinhaDoTempo()
                                 .ConfigureAwait(false);
 
             return Ok(linhaDoTempo);
-
         }
     }
 }

@@ -27,19 +27,10 @@ namespace CottonCandy.Application.AppPostagem
             _logado = logado;
         }
 
-        public async Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem)
-        {
-            var comentarios = await _comentarioRepository
-                                        .PegarComentariosPorIdPostagemAsync(idPostagem)
-                                        .ConfigureAwait(false);
-
-            return comentarios;
-        }
-
-        public async Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input)
+        public async Task<Comentario> InserirComentario(int idPostagem, ComentarioInput input)
         {
             var postagens = await _postagemRepository
-                                    .GetIdPostagensAsync()
+                                    .ObterPostagens()
                                     .ConfigureAwait(false);
 
             if (!postagens.Contains(idPostagem))
@@ -47,13 +38,13 @@ namespace CottonCandy.Application.AppPostagem
                 throw new Exception("Não existe publicação com esse ID");
             }
 
-            var usuarioId = _logado.GetUsuarioLogadoId();
+            var usuarioId = _logado.ObterUsuarioLogado();
 
             var usuarioPostagemId = await _postagemRepository
                                                 .GetUsuarioIdByPostagemId(idPostagem);
 
             var amigosId = await _amigosRepository
-                                    .GetListaAmigos(usuarioId)
+                                    .ObterListaDeAmigos(usuarioId)
                                     .ConfigureAwait(false);
 
 
@@ -67,7 +58,7 @@ namespace CottonCandy.Application.AppPostagem
                 }
 
                 var id = await _comentarioRepository
-                                  .InserirAsync(comentario)
+                                  .InserirComentario(comentario)
                                   .ConfigureAwait(false);
 
                 comentario.SetId(id);
@@ -78,6 +69,15 @@ namespace CottonCandy.Application.AppPostagem
             {
                 throw new Exception("Você não pode comentar essa publicação, porque você não segue este usuário");
             }
+        }
+
+        public async Task<List<Comentario>> ObterComentarios(int idPostagem)
+        {
+            var comentarios = await _comentarioRepository
+                                        .ObterComentarios(idPostagem)
+                                        .ConfigureAwait(false);
+
+            return comentarios;
         }
     }
 }

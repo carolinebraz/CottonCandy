@@ -7,7 +7,7 @@ namespace CottonCandy.Application.AppPostagem.Interfaces
 {
     public interface IComentarioAppService
     {
-        Task<Comentario> InserirAsync(int idPostagem, ComentarioInput input);
-        Task<List<Comentario>> PegarComentariosPorIdPostagemAsync(int idPostagem);
+        Task<Comentario> InserirComentario(int idPostagem, ComentarioInput input);
+        Task<List<Comentario>> ObterComentarios(int idPostagem);
     }
 }

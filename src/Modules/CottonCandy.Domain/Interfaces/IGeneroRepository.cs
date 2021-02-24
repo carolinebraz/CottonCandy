@@ -5,6 +5,6 @@ namespace CottonCandy.Domain.Interfaces
 {
     public interface IGeneroRepository
     {
-        Task<Genero> GetByIdAsync(int id);
+        Task<Genero> ObterGenero(int id);
     }
 }

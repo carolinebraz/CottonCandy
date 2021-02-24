@@ -19,10 +19,42 @@ namespace CottonCandy.Repositories
             _configuration = configuration;
         }
 
-        async Task<List<Comentario>> IComentarioRepository.PegarComentariosPorIdPostagemAsync(int idPostagem)
+        public async Task<int> InserirComentario(Comentario comentario)
         {
-            //método para pegar lista de comentários da postagem de id idPostagem
+            using (var conexao = new SqlConnection(_configuration["ConnectionString"]))
+            {
 
+                var comandoSql = @"INSERT INTO
+                                          Comentario (UsuarioId,
+                                                      PostagemId,
+                                                      Texto,
+                                                      DataComentario)
+                                          VALUES (@usuarioId,
+                                                  @postagemId,
+                                                  @texto,
+                                                  @datacriacao); SELECT scope_identity();";
+
+                using (var comando = new SqlCommand(comandoSql, conexao))
+                {
+                    comando.CommandType = CommandType.Text;
+
+                    comando.Parameters.AddWithValue("usuarioId", comentario.IdUsuario);
+                    comando.Parameters.AddWithValue("postagemId", comentario.IdPostagem);
+                    comando.Parameters.AddWithValue("texto", comentario.Texto);
+                    comando.Parameters.AddWithValue("datacriacao", comentario.DataCriacao);
+
+                    conexao.Open();
+                    var id = await comando
+                                    .ExecuteScalarAsync()
+                                    .ConfigureAwait(false);
+
+                    return int.Parse(id.ToString());
+                }
+            }
+        }
+
+        public async Task<List<Comentario>> ObterComentarios(int idPostagem)
+        {
             using (var conexao = new SqlConnection(_configuration["ConnectionString"]))
             {
                 var comandoSql = @$"SELECT 
@@ -59,40 +91,6 @@ namespace CottonCandy.Repositories
                     }
 
                     return comentariosDaPostagem;
-                }
-            }
-        }
-
-        async Task<int> IComentarioRepository.InserirAsync(Comentario comentario)
-        {
-            using (var conexao = new SqlConnection(_configuration["ConnectionString"]))
-            {
-
-                var comandoSql = @"INSERT INTO
-                                          Comentario (UsuarioId,
-                                                      PostagemId,
-                                                      Texto,
-                                                      DataComentario)
-                                          VALUES (@usuarioId,
-                                                  @postagemId,
-                                                  @texto,
-                                                  @datacriacao); SELECT scope_identity();";
-
-                using (var comando = new SqlCommand(comandoSql, conexao))
-                {
-                    comando.CommandType = CommandType.Text;
-
-                    comando.Parameters.AddWithValue("usuarioId", comentario.IdUsuario);
-                    comando.Parameters.AddWithValue("postagemId", comentario.IdPostagem);
-                    comando.Parameters.AddWithValue("texto", comentario.Texto);
-                    comando.Parameters.AddWithValue("datacriacao", comentario.DataCriacao);
-
-                    conexao.Open();
-                    var id = await comando
-                                    .ExecuteScalarAsync()
-                                    .ConfigureAwait(false);
-
-                    return int.Parse(id.ToString());
                 }
             }
         }
