@@ -3,6 +3,7 @@
 <p>Como projeto de conclusão do curso de FullStack da Gama Academy, nasceu a plataforma Cotton Candy, uma rede social exclusiva para que mulheres desenvolvedoras possam trocar sobre dúvidas, códigos, vagas, dicas, mas também sobre as sutilezas da vida. Tudo com muita doçura e empatia.</p> 
 
 ## :scroll: Sumário
+* [Apresentação do projeto](https://github.com/carolinebraz/CottonCandy/blob/main/We%20can%20code.pdf)
 * [Front End](https://github.com/Pri-Alves/CottonCandy)
 * [Funcionalidades](#ballot-box-with-check-funcionalidades)
 * [Deploy](#rocket-deploy)
